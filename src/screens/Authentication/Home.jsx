@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React from "react";
-import image from '../assets/Logo.png'
+import image from '../../images/Logo.png'
 
 const HomeScreen =()=>{
   const navigation = useNavigation()

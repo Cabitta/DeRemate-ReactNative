@@ -1,18 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import {StyleSheet, Text, View, Image, Button, TouchableOpacity, SafeAreaView} from 'react-native';
 import React from "react";
-import image from '../assets/Logo.png'
+import image from '../../images/Logo.png'
+import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-web';
 //import {TextInput} from 'react-native-web';
 
 const LoginScreen =()=>{
+  const navigation = useNavigation()
     return (
         <View style={styles.container}>
               <Image
                 source={image}
                 style={[styles.image, { resizeMode: 'contain' }]}
               />
-              <Text style={styles.title}>El sabor que queres, en el momento que lo necesitas</Text>
+              <Text style={styles.title}>Inicio de Sesion</Text>
               <StatusBar style="auto"/>
               <TextInput style={styles.input} placeholder='Ingrese el Usuario'/>
               <TextInput style={styles.input} placeholder='Ingrese la Contraseña'/>
@@ -21,7 +23,7 @@ const LoginScreen =()=>{
               <Text style={styles.buttonText}>Iniciar Sesion</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button}
-              onPress={()=> console.log("Parte en progreso")}>
+              onPress={()=> navigation.navigate('EmailRecovery')}>
               <Text style={styles.buttonText}>Recuperar Contraseña</Text>
               </TouchableOpacity>
             </View>
