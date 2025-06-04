@@ -1,75 +1,73 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/Authentication/Home";
 import LoginScreen from "../screens/Authentication/Login";
-import EmailRecoveryScreen from "../screens/Authentication/EmailRecovery"
+import EmailRecoveryScreen from "../screens/Authentication/EmailRecovery";
 import { NavigationContainer } from "@react-navigation/native";
 
-import DeliveryHistoryScreen from '../screens/History/DeliveryHistoryScreen';
-import TokenVerificationScreen from '../screens/Authentication/TokenVerification';
-import NewPasswordSetupScreen from '../screens/Authentication/NewPasswordSetup'
-import PasswordChangedScreen from '../screens/Authentication/PasswordChanged';
+import { Appbar } from "react-native-paper";
+import { COLORS } from "../theme/appTheme"; 
+import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
+import TokenVerificationScreen from "../screens/Authentication/TokenVerification";
+import NewPasswordSetupScreen from "../screens/Authentication/NewPasswordSetup";
+import PasswordChangedScreen from "../screens/Authentication/PasswordChanged";
 
 const Stack = createNativeStackNavigator();
-//const Tab = createBottomTabNavigator();
 
-//const HomeStack = () => (
-//  <Stack.Navigator>
-//    <Stack.Screen name="Home" component={HomeScreen}/>
-//    <Stack.Screen name="Login" component={LoginScreen}/>
-//  </Stack.Navigator>
-//);
+const AuthStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="EmailRecovery" component={EmailRecoveryScreen} />
+    <Stack.Screen
+      name="TokenVerification"
+      component={TokenVerificationScreen}
+    />
+    <Stack.Screen name="NewPasswordSetup" component={NewPasswordSetupScreen} />
+    <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
+  </Stack.Navigator>
+);
 
-//const DelivevryHistoryStack = () => (
-//  <Stack.Navigator>
-//    <Stack.Screen
-//      name="DeliveryHistoryScreen"
-//      component={DeliveryHistoryScreen}
-//      options={{ title: 'Delivery History' }}
-//    />
-//  </Stack.Navigator>
-//);
+const DeliveryHistoryStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Historial de Entregas"
+      component={DeliveryHistoryScreen}
+      options={({ navigation }) => ({
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <Appbar.BackAction
+            onPress={() => {
+              if (navigation.canGoBack()) {
+                navigation.goBack();
+              }
+            }}
+            color={COLORS.primaryButton}
+          />
+        ),
+      })}
+    />
+  </Stack.Navigator>
+);
 
-//const AppNavigator = () => (
-//  <Tab.Navigator>
-//    <Tab.Screen
-//      name="HomeTab"
-//      component={HomeStack}
-//      options={{
-//        headerShown: false,
-//        tabBarLabel: 'Home',
-//      }}
-//    />
-//    <Tab.Screen
-//      name="DeliveryHistoryTab"
-//      component={DelivevryHistoryStack} 
-//      options={{
-//        tabBarLabel: 'Delivery History',
-//      }}
-//    />
-//  </Tab.Navigator>
-//);
-
-function MyStacks(){
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen}/>
-            <Stack.Screen name="Login" component={LoginScreen}/>
-            <Stack.Screen name="EmailRecovery" component={EmailRecoveryScreen}/>
-            <Stack.Screen name="TokenVerification" component={TokenVerificationScreen}/>
-            <Stack.Screen name="NewPasswordSetup" component={NewPasswordSetupScreen}/>
-            <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen}/>
-        </Stack.Navigator>
-    )
-}
-
-function AppNavigator(){
-    return(
-        <NavigationContainer>
-            <MyStacks/>
-        </NavigationContainer>
-    )
+function AppNavigator() {
+  return (
+    <NavigationContainer>
+      {}
+      <Stack.Navigator initialRouteName="AuthFlow">
+        <Stack.Screen
+          name="AuthFlow" 
+          component={AuthStack} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen
+          name="DeliveryHistoryFlow" 
+          component={DeliveryHistoryStack} 
+          options={{ headerShown: false }}
+        />
+        {}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
 export default AppNavigator;
