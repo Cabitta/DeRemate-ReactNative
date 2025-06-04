@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
-import { fetchDeliveries } from '../../services/DeliveryHistoryService';
 import DeliveryHistoryCard from '../../components/DeliveryHistoryCard';
 import { StyleSheet, View } from 'react-native';
 import { COLORS } from '../../theme/appTheme';
