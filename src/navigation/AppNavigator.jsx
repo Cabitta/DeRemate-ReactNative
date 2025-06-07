@@ -74,9 +74,21 @@ function AppTabs() {
         options={{ title: "Inicio" }}
       />
       <Tab.Screen
-        name="DeliveryHistory"
+        name="Historial de Entregas"
         component={DeliveryHistoryScreen}
-        options={{ title: "Historial" }}
+        options={({ navigation }) => ({
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <Appbar.BackAction
+            onPress={() => {
+              if (navigation.canGoBack()) {
+                navigation.goBack();
+              }
+            }}
+            color={COLORS.primaryButton}
+          />
+        ),
+      })}
       />
     </Tab.Navigator>
   );
