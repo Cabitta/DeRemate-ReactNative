@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { useAuthStore } from "../store/authStore";
+import { Appbar } from "react-native-paper";
+import { COLORS } from "../theme/appTheme";
 
 import HomeScreen from "../screens/Authentication/Home";
 import LoginScreen from "../screens/Authentication/Login";
@@ -20,7 +22,11 @@ const Tab = createBottomTabNavigator();
 function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: true }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="EmailRecovery" component={EmailRecoveryScreen} />
       <Stack.Screen
@@ -36,6 +42,28 @@ function AuthStack() {
   );
 }
 
+const DeliveryHistoryStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Historial de Entregas"
+      component={DeliveryHistoryScreen}
+      options={({ navigation }) => ({
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <Appbar.BackAction
+            onPress={() => {
+              if (navigation.canGoBack()) {
+                navigation.goBack();
+              }
+            }}
+            color={COLORS.primaryButton}
+          />
+        ),
+      })}
+    />
+  </Stack.Navigator>
+);
+
 // Tabs para la navegación dentro del área protegida
 function AppTabs() {
   return (
@@ -49,7 +77,6 @@ function AppTabs() {
   );
 }
 
-// Stack principal protegido que contiene los tabs y otras pantallas protegidas
 function ProtectedStack() {
   return (
     <Stack.Navigator>
@@ -63,7 +90,6 @@ function ProtectedStack() {
   );
 }
 
-// Navegador principal que decide qué stack mostrar
 function AppNavigator() {
   const { tokens, user } = useAuthStore();
   const isAuthenticated = !!tokens.token && !!user;
