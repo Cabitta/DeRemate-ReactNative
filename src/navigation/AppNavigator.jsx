@@ -73,6 +73,11 @@ function AppTabs() {
         component={ProtectedScreen}
         options={{ title: "Inicio" }}
       />
+      <Tab.Screen
+        name="DeliveryHistory"
+        component={DeliveryHistoryScreen}
+        options={{ title: "Historial" }}
+      />
     </Tab.Navigator>
   );
 }
