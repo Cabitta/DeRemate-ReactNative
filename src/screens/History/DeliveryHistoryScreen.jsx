@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     margin: 20,
     textAlign: 'center',
     fontSize: 16,
-    color: COLORS.titleText, 
+    color: COLORS.subtitleText, 
   },
 });
 

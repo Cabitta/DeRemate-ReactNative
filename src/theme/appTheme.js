@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const COLORS = {
-  primaryBackground: '#ffffff', 
+  primaryBackground: '#ffe4c4', 
   primaryButton: '#E07A5F',    
   buttonText: '#ffffff',       
   titleText: '#FFFFFF',   
-
+  subtitleText: '#000000',
   cardBackground: '#3B2F2F',
 };
 
