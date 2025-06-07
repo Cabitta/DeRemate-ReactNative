@@ -3,11 +3,12 @@ import { useContext, useEffect, useRef } from 'react';
 // import { AuthContext } from '../context/AuthContext';
 // import { getToken } from '../utils/tokenStorage';
 import { useNavigation } from '@react-navigation/native';
+import { API_BASE_URL } from '@env';
 
 export const useAxios = () => {
   // const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
-  const axiosInstance = useRef(axios.create({ baseURL: 'http://10.0.2.2:3000/api' }));
+  const axiosInstance = useRef(axios.create({ baseURL: API_BASE_URL }));
 
   useEffect(() => {
     const instance = axiosInstance.current;
