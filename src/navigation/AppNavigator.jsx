@@ -1,31 +1,46 @@
+import { useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { useAuthStore } from "../store/authStore";
+import { Appbar } from "react-native-paper";
+import { COLORS } from "../theme/appTheme";
+
 import HomeScreen from "../screens/Authentication/Home";
 import LoginScreen from "../screens/Authentication/Login";
 import EmailRecoveryScreen from "../screens/Authentication/EmailRecovery";
-import { NavigationContainer } from "@react-navigation/native";
-
-import { Appbar } from "react-native-paper";
-import { COLORS } from "../theme/appTheme"; 
-import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
 import TokenVerificationScreen from "../screens/Authentication/TokenVerification";
 import NewPasswordSetupScreen from "../screens/Authentication/NewPasswordSetup";
 import PasswordChangedScreen from "../screens/Authentication/PasswordChanged";
+import ProtectedScreen from "../screens/ProtectedScreen";
+import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const AuthStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-    <Stack.Screen name="Login" component={LoginScreen} />
-    <Stack.Screen name="EmailRecovery" component={EmailRecoveryScreen} />
-    <Stack.Screen
-      name="TokenVerification"
-      component={TokenVerificationScreen}
-    />
-    <Stack.Screen name="NewPasswordSetup" component={NewPasswordSetupScreen} />
-    <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
-  </Stack.Navigator>
-);
+// Stack para usuarios no autenticados
+function AuthStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: true }}>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="EmailRecovery" component={EmailRecoveryScreen} />
+      <Stack.Screen
+        name="TokenVerification"
+        component={TokenVerificationScreen}
+      />
+      <Stack.Screen
+        name="NewPasswordSetup"
+        component={NewPasswordSetupScreen}
+      />
+      <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
+    </Stack.Navigator>
+  );
+}
 
 const DeliveryHistoryStack = () => (
   <Stack.Navigator>
@@ -49,23 +64,44 @@ const DeliveryHistoryStack = () => (
   </Stack.Navigator>
 );
 
+// Tabs para la navegación dentro del área protegida
+function AppTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Dashboard"
+        component={ProtectedScreen}
+        options={{ title: "Inicio" }}
+      />
+      <Tab.Screen
+        name="DeliveryHistory"
+        component={DeliveryHistoryScreen}
+        options={{ title: "Historial" }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+function ProtectedStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="MainApp"
+        component={AppTabs}
+        options={{ headerShown: false }}
+      />
+      {/* Aquí puedes añadir más pantallas protegidas que no sean tabs */}
+    </Stack.Navigator>
+  );
+}
+
 function AppNavigator() {
+  const { tokens, user } = useAuthStore();
+  const isAuthenticated = !!tokens.token && !!user;
+
   return (
     <NavigationContainer>
-      {}
-      <Stack.Navigator initialRouteName="AuthFlow">
-        <Stack.Screen
-          name="AuthFlow" 
-          component={AuthStack} 
-          options={{ headerShown: false }} 
-        />
-        <Stack.Screen
-          name="DeliveryHistoryFlow" 
-          component={DeliveryHistoryStack} 
-          options={{ headerShown: false }}
-        />
-        {}
-      </Stack.Navigator>
+      {isAuthenticated ? <ProtectedStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }
