@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/authStore";
 import dayjs from "dayjs";
 
 const authAxios = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "http://192.168.0.228:3000/api",
 });
 
 authAxios.interceptors.request.use(
@@ -21,7 +21,7 @@ authAxios.interceptors.request.use(
       if (refreshToken) {
         try {
           const response = await axios.post(
-            "http://localhost:3000/api/auth/refresh",
+            "http://192.168.0.228:3000/api/auth/refresh",
             {
               refreshToken,
             }
@@ -58,3 +58,5 @@ authAxios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+export default authAxios;
