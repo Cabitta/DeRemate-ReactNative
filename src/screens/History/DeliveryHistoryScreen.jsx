@@ -5,6 +5,7 @@ import DeliveryHistoryCard from '../../components/DeliveryHistoryCard';
 import { StyleSheet, View } from 'react-native';
 import { COLORS } from '../../theme/appTheme';
 import { useDeliveryHistoryService } from '../../services/DeliveryHistoryService';
+import { useAuthStore } from '../../store/authStore';
 
 const DeliveryHistoryScreen = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -13,7 +14,7 @@ const DeliveryHistoryScreen = () => {
   const [error, setError] = useState(null);
   const { fetchDeliveries } = useDeliveryHistoryService();
 
-  const deliveryId = '6805cc605be788a9125b58c3'; // TODO: Replace deliveryId with context
+  const deliveryId = useAuthStore((state) => state.user?.id);
 
   const loadDeliveries = useCallback(async () => {
     if (!deliveryId) return;
