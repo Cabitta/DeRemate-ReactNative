@@ -7,10 +7,31 @@ import { useNavigation } from '@react-navigation/native';
 export const useAxios = () => {
   // const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
-  const axiosInstance = useRef(axios.create({ baseURL: 'http://10.0.2.2:3000/api' }));
-
+  const axiosInstance = useRef(axios.create({ //baseURL: 'http://10.0.2.2:3000/api' }));
+  baseURL: 'http://localhost:3000/api',
+  timeout: 10000}));
   useEffect(() => {
     const instance = axiosInstance.current;
+    // Interceptor para solicitudes
+    instance.interceptors.request.use(config => {
+      console.log("Enviando solicitud:", config);
+      return config;
+    }, error => {
+      console.error("Error antes de enviar la solicitud:", error);
+      return Promise.reject(error);
+    });
+
+    // Interceptor para respuestas
+    instance.interceptors.response.use(
+      response => {
+        console.log("Respuesta recibida:", response);
+        return response;
+      },
+      error => {
+        console.error("Error en respuesta del servidor:", error);
+        return Promise.reject(error);
+      }
+    );
     // TODO: Implement token and logout handling
     
     // instance.interceptors.request.use(async (config) => {
