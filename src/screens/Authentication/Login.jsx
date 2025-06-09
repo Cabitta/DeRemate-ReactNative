@@ -6,12 +6,16 @@ import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native';
 import { LoginService } from '../../services/LoginService';
 import { Alert} from 'react-native';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+
 
 //import {TextInput} from 'react-native-web';
 
 const LoginScreen =()=>{
   const navigation = useNavigation()
   const fetchLogin = LoginService()
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = async () => {
@@ -26,6 +30,7 @@ const LoginScreen =()=>{
       console.log("Intentando iniciar sesion")
       const data = await fetchLogin(email, password);
       console.log('Login exitoso:', data);
+      await login(data.token);
       navigation.navigate('Home');
     } catch (error) {
       console.log("Error en autenticacion")
