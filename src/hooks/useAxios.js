@@ -1,17 +1,68 @@
 import axios from 'axios';
 import { useContext, useEffect, useRef } from 'react';
-// import { AuthContext } from '../context/AuthContext';
-// import { getToken } from '../utils/tokenStorage';
+import { AuthContext } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { getToken } from '../utils/tokenStorage';
 import { API_BASE_URL } from '@env';
 
 export const useAxios = () => {
-  // const { logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
-  const axiosInstance = useRef(axios.create({ baseURL: API_BASE_URL }));
-
+  const axiosInstance = useRef(axios.create({ //baseURL: 'http://10.0.2.2:3000/api' }));
+  baseURL: 'http://localhost:3000/api',
+  timeout: 10000}));
   useEffect(() => {
     const instance = axiosInstance.current;
+
+    instance.interceptors.request.use(async(config)=>{
+      const token = await getToken();
+      if (token){
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+
+    instance.interceptors.response.use((res)=> res,
+  async (err)=>{
+    if (err.response?.status === 401){
+      await logout();
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Login'}],
+      });
+    }
+    return Promise.reject(err)
+    }
+  );
+  }, []);
+  return axiosInstance.current;
+};
+
+    //DESDE ACA EMPIEZA EL CODIGO EN FUNCIONAMIENTO DEL ULTIMO COMMIT
+    // Interceptor para solicitudes
+    //instance.interceptors.request.use(config => {
+    //  console.log("Enviando solicitud:", config);
+    //  return config;
+    //}, error => {
+      //console.error("Error antes de enviar la solicitud:", error);
+      //return Promise.reject(error);
+    //});
+    // Interceptor para respuestas
+    //instance.interceptors.response.use(
+    //  response => {
+        //console.log("Respuesta recibida:", response);
+        //return response;
+      //},
+      //error => {
+        //console.error("Error en respuesta del servidor:", error);
+        //return Promise.reject(error);
+      //}
+    //);
+
+//HASTA ACA ESTA LO QUE FUNCIONABA EN EL ULTIMO COMMIT
+
+
+
     // TODO: Implement token and logout handling
     
     // instance.interceptors.request.use(async (config) => {
@@ -35,7 +86,3 @@ export const useAxios = () => {
     //     return Promise.reject(err);
     //   }
     // );
-  }, []);
-
-  return axiosInstance.current;
-};

@@ -1,89 +1,69 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
-import React, { useState } from "react";
-import image from "../../images/Logo.png";
-import { useNavigation } from "@react-navigation/native";
-import { TextInput } from "react-native";
-import axios from "axios";
-import { useAuthStore } from "../../store/authStore";
+import { StatusBar } from 'expo-status-bar';
+import {StyleSheet, Text, View, Image, Button, TouchableOpacity, SafeAreaView} from 'react-native';
+import React, {useState} from "react";
+import image from '../../images/Logo.png'
+import { useNavigation } from '@react-navigation/native';
+import { TextInput } from 'react-native';
+import { LoginService } from '../../services/LoginService';
+import { Alert} from 'react-native';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
-const API_URL = "http://192.168.0.228:3000/api/login";
 
-const LoginScreen = () => {
-  const navigation = useNavigation();
-  const { setTokens, setUser } = useAuthStore();
+//import {TextInput} from 'react-native-web';
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+const LoginScreen =()=>{
+  const navigation = useNavigation()
+  const fetchLogin = LoginService()
+  const { login } = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const handleLogin = async () => {
-    try {
-      const response = await axios.post(API_URL, {
-        email,
-        password,
-      });
-
-      const { token, refreshToken, expirationDate, user } = response.data;
-
-      setTokens({
-        token,
-        refreshToken,
-        expirationDate,
-      });
-
-      console.log(response.data);
-
-      setUser(user);
-    } catch (error) {
-      console.error("Error de login:", error);
-      Alert.alert("Error", "Credenciales incorrectas o error de servidor");
+    console.log("Entra al handleLogin");
+    console.log("Email:", email);
+    console.log("Password:", password);
+    if (!email || !password) {
+      Alert.alert('Campos requeridos', 'Por favor complete ambos campos.');
+      return;
     }
-  };
-
-  return (
-    <View style={styles.container}>
-      <Image source={image} style={[styles.image, { resizeMode: "contain" }]} />
-      <Text style={styles.title}>Inicio de Sesión</Text>
-      <StatusBar style="auto" />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Ingrese su email"
-        value={email}
-        onChangeText={setEmail}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Ingrese la contraseña"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Iniciar Sesión</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("EmailRecovery")}
-      >
-        <Text style={styles.buttonText}>Recuperar Contraseña</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
+    try {
+      console.log("Intentando iniciar sesion")
+      const data = await fetchLogin(email, password);
+      console.log('Login exitoso:', data);
+      await login(data.token);
+      navigation.navigate('Home');
+    } catch (error) {
+      console.log("Error en autenticacion")
+      Alert.alert('Error de autenticación', 'Usuario o contraseña incorrectos.');
+    }
+  }
+    return (
+        <View style={styles.container}>
+              <Image
+                source={image}
+                style={[styles.image, { resizeMode: 'contain' }]}
+              />
+              <Text style={styles.title}>Inicio de Sesion</Text>
+              <StatusBar style="auto"/>
+              <TextInput style={styles.input} placeholder='Ingrese el Usuario'
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"/>
+              <TextInput style={styles.input} placeholder='Ingrese la Contraseña'
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry/>
+              <TouchableOpacity style={styles.button}
+              onPress={() => handleLogin()}>
+              <Text style={styles.buttonText}>Iniciar Sesion</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}
+              onPress={()=> navigation.navigate('EmailRecovery')}>
+              <Text style={styles.buttonText}>Recuperar Contraseña</Text>
+              </TouchableOpacity>
+            </View>
+    );
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
