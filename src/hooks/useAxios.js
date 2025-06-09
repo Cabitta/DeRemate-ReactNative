@@ -3,6 +3,7 @@ import { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { getToken } from '../utils/tokenStorage';
+import { API_BASE_URL } from '@env';
 
 export const useAxios = () => {
   const { logout } = useContext(AuthContext);
