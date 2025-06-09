@@ -5,11 +5,13 @@ import AvailableRoutesCard from '../components/AvailableRoutesCard'
 
 const AvailableRoutesScreen = () => {
     const [loading, setLoading] = useState(true)
+    const [availableRoutes, setAvailableRoutes] = useState([])
 
     useEffect(() => {
         // Simula una carga de datos para que aparezca el loading
         const timer = setTimeout(() => {
             setLoading(false)
+            setAvailableRoutes(routes) // Asigna las rutas disponibles al estado
         }, 2000)
         return () => clearTimeout(timer)
     }, [])
@@ -22,18 +24,20 @@ const AvailableRoutesScreen = () => {
     // Pantalla principal con la tarjeta de rutas disponibles
     return (
         <View style={{ flex: 1 }}>
-            <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 24 }}>
-                {availableRoutes.map((route, idx) => (
-                    <AvailableRoutesCard key={idx} availableRoute={route} />
-                ))}
+            <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}>
+                {availableRoutes.length === 0 ? (
+                    <Text style={{ marginTop: 32, fontSize: 16, color: '#888' }}>No tenes rutas disponibles.</Text>
+                ) : (
+                    routes.map((route, idx) => (
+                        <AvailableRoutesCard key={idx} availableRoute={route} />
+                    ))
+                )}
             </ScrollView>
         </View>
     )
 }
 
-const routes = []
-
-const availableRoutes = [
+routes = [
         {
             address: "Callejón del Tiempo 999",
             client_name: "Juan",
