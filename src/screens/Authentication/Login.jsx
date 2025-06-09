@@ -8,6 +8,9 @@ import { LoginService } from '../../services/LoginService';
 import { Alert} from 'react-native';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import InputText from '../../components/InputText';
+import CustomButton from '../../components/CustomButton';
+
 
 
 //import {TextInput} from 'react-native-web';
@@ -45,22 +48,11 @@ const LoginScreen =()=>{
               />
               <Text style={styles.title}>Inicio de Sesion</Text>
               <StatusBar style="auto"/>
-              <TextInput style={styles.input} placeholder='Ingrese el Usuario'
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"/>
-              <TextInput style={styles.input} placeholder='Ingrese la Contraseña'
-              value={password}
-              onChangeText={setPassword}
+              <InputText placeholder="Ingrese el usuario" value={email} onChangeText={setEmail}/>
+              <InputText placeholder="Ingrese la contraseña" value={password} onChangeText={setPassword} 
               secureTextEntry/>
-              <TouchableOpacity style={styles.button}
-              onPress={() => handleLogin()}>
-              <Text style={styles.buttonText}>Iniciar Sesion</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}
-              onPress={()=> navigation.navigate('EmailRecovery')}>
-              <Text style={styles.buttonText}>Recuperar Contraseña</Text>
-              </TouchableOpacity>
+              <CustomButton title="Iniciar Sesión" onPress={handleLogin} />
+              <CustomButton title="Recuperar Contraseña" onPress={() => navigation.navigate('EmailRecovery')} />
             </View>
     );
 }
@@ -81,33 +73,6 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     alignSelf: "center",
-  },
-  input: {
-    padding: 10,
-    marginTop: 15,
-    borderWidth: 1,
-    borderColor: "#777",
-    height: 40,
-    width: 250,
-    alignSelf: "center",
-    borderRadius: 30,
-    backgroundColor: "#ffffff",
-  },
-  button: {
-    backgroundColor: "#8b0000",
-    padding: 10,
-    marginTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 30,
-    width: 250,
-  },
-  buttonText: {
-    fontSize: 15,
-    color: "#ffffff",
-    width: 200,
-    height: 25,
-    textAlign: "center",
   },
 });
 

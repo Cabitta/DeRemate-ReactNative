@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-web';
 import { NewPasswordSetupService } from '../../services/NewPasswordSetupService';
 import { Alert} from 'react-native';
+import InputText from '../../components/InputText';
+import CustomButton from '../../components/CustomButton';
 
 const NewPasswordSetupScreen =()=>{
   const navigation = useNavigation()
@@ -37,22 +39,10 @@ const NewPasswordSetupScreen =()=>{
               />
               <Text style={styles.title}>Reestablecimiento de Contraseña</Text>
               <StatusBar style="auto"/>
-              <TextInput style={styles.input} placeholder='Ingrese el Token de Verificacion'
-              value={code}
-              onChangeText={setCode}
-              />
-              <TextInput style={styles.input} placeholder='Ingrese la contraseña'
-              value={newpassword}
-              onChangeText={setNewpassword}
-              secureTextEntry/>
-              <TextInput style={styles.input} placeholder='Reingrese la contraseña'
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              secureTextEntry/>
-              <TouchableOpacity style={styles.button}
-              onPress={() => handleNewPasswordSetup()}>
-              <Text style={styles.buttonText}>Enviar</Text>
-              </TouchableOpacity>
+              <InputText placeholder="Ingrese el Token de Verificacion" value={code} onChangeText={setCode}/>
+              <InputText placeholder="Ingrese la contraseña" value={newpassword} onChangeText={setNewpassword} secureTextEntry/>
+              <InputText placeholder="Reingrese la contraseña" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry/>
+              <CustomButton title="Enviar" onPress={handleNewPasswordSetup()} />
             </View>
     );
 }
@@ -83,21 +73,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 30
   },
-  button:{
-    backgroundColor: "#8b0000",
-    padding: 10,
-    marginTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 30
-  },
-  buttonText:{
-    fontSize: 15,
-    color: "#ffffff",
-    width: 200,
-    height: 25,
-    textAlign: "center"
-  }
 });
 
 export default NewPasswordSetupScreen
