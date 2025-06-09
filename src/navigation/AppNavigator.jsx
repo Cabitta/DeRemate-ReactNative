@@ -16,6 +16,7 @@ import PasswordChangedScreen from "../screens/Authentication/PasswordChanged";
 import ProtectedScreen from "../screens/ProtectedScreen";
 import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
 import { AuthContext } from "../context/AuthContext";
+import AvailableRoutesScreen from "../screens/AvailableRoutesScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -94,6 +95,9 @@ function AppTabs() {
           ),
         })}
       />
+      <Tab.Screen
+        name="Rutas Disponibles"
+        component={AvailableRoutesScreen}/>
     </Tab.Navigator>
   );
 }
