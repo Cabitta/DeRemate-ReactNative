@@ -39,7 +39,8 @@ const LoginScreen = () => {
       console.log("Intentando iniciar sesion");
       const response = await fetchLogin(email, password);
       console.log("Login exitoso:", response);
-      const { tokens, user } = response.data;
+      const { token, refreshToken, expirationDate, user } = response;
+      const tokens = { token, refreshToken, expirationDate };
       await login(tokens, user);
       navigation.navigate("ProtectedScreen");
     } catch (error) {
