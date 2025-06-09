@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-web';
 import { EmailRecoveryService } from '../../services/EmailRecoveryService';
 import { Alert} from 'react-native';
+import InputText from '../../components/InputText';
+import CustomButton from '../../components/CustomButton';
 //import {TextInput} from 'react-native-web';
 
 const EmailRecoveryScreen =()=>{
@@ -37,13 +39,8 @@ const EmailRecoveryScreen =()=>{
               />
               <Text style={styles.title}>Recuperacion de Contraseña</Text>
               <StatusBar style="auto"/>
-              <TextInput style={styles.input} placeholder='Ingrese el correo electronico'
-              value={email}
-              onChangeText={setEmail}/>
-              <TouchableOpacity style={styles.button}
-              onPress={() => handleEmailRecovery()}>
-              <Text style={styles.buttonText}>Enviar correo electronico</Text>
-              </TouchableOpacity>
+              <InputText placeholder="Ingrese el correo electronico" value={email} onChangeText={setEmail}/>
+              <CustomButton title="Enviar Correo Electronico" onPress={handleEmailRecovery()} />
             </View>
     );
 }

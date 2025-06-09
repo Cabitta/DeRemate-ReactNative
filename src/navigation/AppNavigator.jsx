@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import NewPasswordSetupScreen from "../screens/Authentication/NewPasswordSetup";
 import PasswordChangedScreen from "../screens/Authentication/PasswordChanged";
 import ProtectedScreen from "../screens/ProtectedScreen";
 import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
+import { AuthContext } from "../context/AuthContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -110,7 +111,6 @@ function ProtectedStack() {
 function AppNavigator() {
   const { tokens, user } = useAuthStore();
   const isAuthenticated = !!tokens.token && !!user;
-
   return (
     <NavigationContainer>
       {isAuthenticated ? <ProtectedStack /> : <AuthStack />}

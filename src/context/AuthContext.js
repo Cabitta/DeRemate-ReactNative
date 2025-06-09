@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     checkAuth();},[]);
 
-  const login = async () => {
+  const login = async (token) => {
     await saveToken(token);
     setIsAuthenticated(true);
   };
