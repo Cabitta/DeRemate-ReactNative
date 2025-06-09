@@ -33,7 +33,7 @@ const LoginScreen =()=>{
       await login(data.token);
       navigation.navigate('Home');
     } catch (error) {
-      console.log("Error en autenticacion")
+      console.log("Error buscado", error.message)
       Alert.alert('Error de autenticación', 'Usuario o contraseña incorrectos.');
     }
   }
