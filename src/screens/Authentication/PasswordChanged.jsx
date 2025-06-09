@@ -5,6 +5,7 @@ import image from '../../images/Logo.png'
 import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-web';
 //import {TextInput} from 'react-native-web';
+import CustomButton from '../../components/CustomButton';
 
 const PasswordChangedScreen =()=>{
   const navigation = useNavigation()
@@ -16,10 +17,7 @@ const PasswordChangedScreen =()=>{
               />
               <Text style={styles.title}>La contraseña ha sido modificada con exito</Text>
               <StatusBar style="auto"/>
-              <TouchableOpacity style={styles.button}
-              onPress={()=> navigation.navigate('Login')}>
-              <Text style={styles.buttonText}>Ir a Inicio de Sesion</Text>
-              </TouchableOpacity>
+              <CustomButton title="Ir a Inicio de Sesion" onPress={()=> navigation.navigate('Login')}/>
             </View>
     );
 }
@@ -50,21 +48,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 30
   },
-  button:{
-    backgroundColor: "#8b0000",
-    padding: 10,
-    marginTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 30
-  },
-  buttonText:{
-    fontSize: 15,
-    color: "#ffffff",
-    width: 200,
-    height: 25,
-    textAlign: "center"
-  }
 });
 
 export default PasswordChangedScreen

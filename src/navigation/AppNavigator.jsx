@@ -115,10 +115,6 @@ function AppNavigator() {
   const { tokens, user } = useContext(AuthContext);
   const isAuthenticated = !!tokens && !!user;
 
-  useEffect(() => {
-    console.log("Auth State:", { tokens, user, isAuthenticated });
-  }, [tokens, user, isAuthenticated]);
-
   return (
     <NavigationContainer>
       {isAuthenticated ? <ProtectedStack /> : <AuthStack />}
