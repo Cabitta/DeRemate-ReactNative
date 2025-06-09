@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { ScrollView, RefreshControl } from 'react-native';
-import { ActivityIndicator, Text } from 'react-native-paper';
-import DeliveryHistoryCard from '../../components/DeliveryHistoryCard';
-import { StyleSheet, View } from 'react-native';
-import { COLORS } from '../../theme/appTheme';
-import { useDeliveryHistoryService } from '../../services/DeliveryHistoryService';
-import { useAuthStore } from '../../store/authStore';
+import React, { useEffect, useState, useCallback, useContext } from "react";
+import { ScrollView, RefreshControl } from "react-native";
+import { ActivityIndicator, Text } from "react-native-paper";
+import DeliveryHistoryCard from "../../components/DeliveryHistoryCard";
+import { StyleSheet, View } from "react-native";
+import { COLORS } from "../../theme/appTheme";
+import { useDeliveryHistoryService } from "../../services/DeliveryHistoryService";
+import { AuthContext } from "../../context/AuthContext";
 
 const DeliveryHistoryScreen = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -13,24 +13,23 @@ const DeliveryHistoryScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
   const { fetchDeliveries } = useDeliveryHistoryService();
-
-  const deliveryId = useAuthStore((state) => state.user?.id);
+  const { user } = useContext(AuthContext);
 
   const loadDeliveries = useCallback(async () => {
-    if (!deliveryId) return;
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await fetchDeliveries(deliveryId);
-        setDeliveries(data);
-      } catch (err) {
-        console.error("Failed to load deliveries in component", err);
-        setError(err);
-        setDeliveries([]);
-      } finally {
-        setLoading(false);
-      }
-  }, [deliveryId, fetchDeliveries]);
+    if (!user?.id) return;
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await fetchDeliveries(user.id);
+      setDeliveries(data);
+    } catch (err) {
+      console.error("Failed to load deliveries in component", err);
+      setError(err);
+      setDeliveries([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [user?.id, fetchDeliveries]);
 
   useEffect(() => {
     loadDeliveries();
@@ -42,6 +41,14 @@ const DeliveryHistoryScreen = () => {
     setRefreshing(false);
   };
 
+  if (!user) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.emptyText}>No hay usuario autenticado.</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -50,8 +57,8 @@ const DeliveryHistoryScreen = () => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={[COLORS.primaryButton]} 
-            tintColor={COLORS.primaryButton} 
+            colors={[COLORS.primaryButton]}
+            tintColor={COLORS.primaryButton}
           />
         }
       >
@@ -59,9 +66,13 @@ const DeliveryHistoryScreen = () => {
           <ActivityIndicator
             animating={true}
             size="large"
-            color={COLORS.primaryButton} 
+            color={COLORS.primaryButton}
             style={styles.loader}
           />
+        ) : error ? (
+          <Text style={styles.errorText}>
+            Error al cargar las entregas. Por favor, intente nuevamente.
+          </Text>
         ) : deliveries.length === 0 ? (
           <Text style={styles.emptyText}>No hay entregas disponibles.</Text>
         ) : (
@@ -77,7 +88,7 @@ const DeliveryHistoryScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.primaryBackground, 
+    backgroundColor: COLORS.primaryBackground,
   },
   scrollViewContent: {
     flexGrow: 1,
@@ -85,13 +96,19 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 50,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   emptyText: {
     margin: 20,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 16,
-    color: COLORS.subtitleText, 
+    color: COLORS.subtitleText,
+  },
+  errorText: {
+    margin: 20,
+    textAlign: "center",
+    fontSize: 16,
+    color: "#ff0000",
   },
 });
 

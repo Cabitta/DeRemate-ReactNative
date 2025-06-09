@@ -2,12 +2,13 @@ import { useContext, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { useAuthStore } from "../store/authStore";
 import { Appbar } from "react-native-paper";
 import { COLORS } from "../theme/appTheme";
 
 import HomeScreen from "../screens/Authentication/Home";
 import LoginScreen from "../screens/Authentication/Login";
+import RegisterScreen from "../screens/Authentication/Register";
+import VerifyAccount from "../screens/Authentication/VerifyAccount";
 import EmailRecoveryScreen from "../screens/Authentication/EmailRecovery";
 import TokenVerificationScreen from "../screens/Authentication/TokenVerification";
 import NewPasswordSetupScreen from "../screens/Authentication/NewPasswordSetup";
@@ -29,6 +30,8 @@ function AuthStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="VerifyAccount" component={VerifyAccount} />
       <Stack.Screen name="EmailRecovery" component={EmailRecoveryScreen} />
       <Stack.Screen
         name="TokenVerification"
@@ -78,18 +81,18 @@ function AppTabs() {
         name="Historial de Entregas"
         component={DeliveryHistoryScreen}
         options={({ navigation }) => ({
-        headerTitleAlign: "center",
-        headerLeft: () => (
-          <Appbar.BackAction
-            onPress={() => {
-              if (navigation.canGoBack()) {
-                navigation.goBack();
-              }
-            }}
-            color={COLORS.primaryButton}
-          />
-        ),
-      })}
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <Appbar.BackAction
+              onPress={() => {
+                if (navigation.canGoBack()) {
+                  navigation.goBack();
+                }
+              }}
+              color={COLORS.primaryButton}
+            />
+          ),
+        })}
       />
     </Tab.Navigator>
   );
@@ -109,8 +112,9 @@ function ProtectedStack() {
 }
 
 function AppNavigator() {
-  const { tokens, user } = useAuthStore();
-  const isAuthenticated = !!tokens.token && !!user;
+  const { tokens, user } = useContext(AuthContext);
+  const isAuthenticated = !!tokens && !!user;
+
   return (
     <NavigationContainer>
       {isAuthenticated ? <ProtectedStack /> : <AuthStack />}
