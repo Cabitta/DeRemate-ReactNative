@@ -10,7 +10,7 @@ export const useAuthAxios = () => {
 
   const axiosInstance = useRef(
     axios.create({
-      baseURL: "http://192.168.0.228:3000/api",
+      baseURL: "http://localhost:3000/api", //"http://192.168.0.228:3000/api",
       timeout: 10000,
     })
   );
