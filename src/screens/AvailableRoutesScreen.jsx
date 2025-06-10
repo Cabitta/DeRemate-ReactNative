@@ -18,14 +18,14 @@ const AvailableRoutesScreen = () => {
             const data = await fetchAvailableRoutes(user?.id)
             setAvailableRoutes(data || [])
         } catch (error) {
-            setAvailableRoutes([])
+            setAvailableRoutes(null)
         } finally {
             setLoading(false)
         }
     }
 
     useEffect(() => {
-            fetchData()
+        fetchData()
     }, [])
 
     return (
@@ -33,18 +33,20 @@ const AvailableRoutesScreen = () => {
         {loading ? (
             Loading()
         ) : (
-            
-                <ScrollView 
-                    contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}>
-                    {availableRoutes.length === 0 ? (
-                        <Text variant="titleLarge" style={{ color: COLORS.primaryButton }}>No tenés rutas disponibles.</Text>
-                    ) : (
-                        availableRoutes.map((route, idx) => (
-                            <AvailableRoutesCard key={idx} availableRoute={route} />
-                        ))
-                    )}
-                </ScrollView>
-            
+            <ScrollView 
+                contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}>
+                {availableRoutes === null ? (
+                    <Text variant="titleLarge" style={{ color: COLORS.primaryButton }}>
+                        Ocurrió un error al cargar las rutas. Intenta nuevamente.
+                    </Text>
+                ) : availableRoutes.length === 0 ? (
+                    <Text variant="titleLarge" style={{ color: COLORS.primaryButton }}>No tenés rutas disponibles.</Text>
+                ) : (
+                    availableRoutes.map((route, idx) => (
+                        <AvailableRoutesCard key={idx} availableRoute={route} />
+                    ))
+                )}
+            </ScrollView>
         )}
     </View>
     )
