@@ -1,4 +1,4 @@
-import { Card, Text } from 'react-native-paper';
+import { Card, Divider, Text } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { COLORS } from '../theme/appTheme';
 
@@ -12,6 +12,9 @@ const AvailableRoutesCard = ({ availableRoute }) => {
       <Card.Content>
         <Text style={styles.cardText}>{`Cliente: ${availableRoute.client_name} ${availableRoute.client_lastname}`}</Text>
         <Text style={styles.cardText}>{`Email: ${availableRoute.client_email}`}</Text>
+        <Divider/>
+        <Text style={styles.cardText}>{`Sector: ${availableRoute.package_sector}`}</Text>
+        <Text style={styles.cardText}>{`Estante: ${availableRoute.package_estante} Columna: ${availableRoute.package_columna_estante}`}</Text>
       </Card.Content>
     </Card>
   );
