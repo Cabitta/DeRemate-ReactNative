@@ -1,5 +1,7 @@
 import { useAxios } from '../hooks/useAxios'; 
 import { useCallback } from 'react';
+import { Alert } from 'react-native';
+
 
 export const EmailRecoveryService = () => {
     const axiosInstance = useAxios()
@@ -15,13 +17,12 @@ export const EmailRecoveryService = () => {
         catch(error){
             if (error.response) {
                 // El servidor respondió con un código de estado diferente de 2xx
-                console.error("Error en el servidor:", error.response.status, error.response.data);
+                Alert.alert("El email no esta registrado como usuario")
             } else if (error.request) {
                 // La solicitud fue hecha pero no hubo respuesta del servidor
-                console.error("No hay respuesta del servidor", error.request);
+                Alert.alert("No se pudo conectar al servidor. Vuelva a intentarlo mas tarde")
             } else {
-                // Otro tipo de error
-                console.error("Error inesperado:", error.message);
+                Alert.alert("Error inesperado")
             }
             throw error;
         }

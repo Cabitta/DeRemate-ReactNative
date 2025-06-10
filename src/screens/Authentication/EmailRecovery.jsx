@@ -40,7 +40,7 @@ const EmailRecoveryScreen =()=>{
               <Text style={styles.title}>Recuperacion de Contraseña</Text>
               <StatusBar style="auto"/>
               <InputText placeholder="Ingrese el correo electronico" value={email} onChangeText={setEmail}/>
-              <CustomButton title="Enviar Correo Electronico" onPress={handleEmailRecovery()} />
+              <CustomButton title="Enviar Correo Electronico" onPress={handleEmailRecovery} />
             </View>
     );
 }
