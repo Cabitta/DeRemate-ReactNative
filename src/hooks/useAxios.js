@@ -8,7 +8,17 @@ import { API_BASE_URL } from '@env';
 export const useAxios = () => {
   // const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
-  const axiosInstance = useRef(axios.create({ baseURL: API_BASE_URL }));
+
+  const axiosInstance = useRef(
+    axios.create({
+      baseURL: "http://10.0.2.2:3000/api", //http://10.0.2.2:3000/api",
+      timeout: 10000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  );
+
 
   useEffect(() => {
     const instance = axiosInstance.current;
