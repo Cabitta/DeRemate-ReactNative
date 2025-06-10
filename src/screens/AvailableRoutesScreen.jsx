@@ -1,9 +1,11 @@
 import { useState, useEffect, useContext } from 'react'
-import { Text, View, ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import Loading from '../components/Loading'
 import AvailableRoutesCard from '../components/AvailableRoutesCard'
 import { AvailableRoutesService } from '../services/AvailableRoutesService'
 import { AuthContext } from '../context/AuthContext'
+import { COLORS } from '../theme/appTheme'
+import { Text } from 'react-native-paper'
 
 const AvailableRoutesScreen = () => {
     const [loading, setLoading] = useState(true)
@@ -26,24 +28,25 @@ const AvailableRoutesScreen = () => {
             fetchData()
     }, [])
 
-    // Pantalla de carga
-    if (loading) {
-        return Loading()
-    }
-
-    // Pantalla principal con la tarjeta de rutas disponibles
     return (
-        <View style={{ flex: 1 }}>
-            <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}>
-                {availableRoutes.length === 0 ? (
-                    <Text style={{ marginTop: 32, fontSize: 16, color: '#888' }}>No tenés rutas disponibles.</Text>
-                ) : (
-                    availableRoutes.map((route, idx) => (
-                        <AvailableRoutesCard key={idx} availableRoute={route} />
-                    ))
-                )}
-            </ScrollView>
-        </View>
+        <View style={{ flex: 1, backgroundColor: COLORS.primaryBackground }}>
+        {loading ? (
+            Loading()
+        ) : (
+            
+                <ScrollView 
+                    contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}>
+                    {availableRoutes.length === 0 ? (
+                        <Text variant="titleLarge" style={{ color: COLORS.primaryButton }}>No tenés rutas disponibles.</Text>
+                    ) : (
+                        availableRoutes.map((route, idx) => (
+                            <AvailableRoutesCard key={idx} availableRoute={route} />
+                        ))
+                    )}
+                </ScrollView>
+            
+        )}
+    </View>
     )
 }
 

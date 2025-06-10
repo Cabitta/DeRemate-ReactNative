@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Appbar } from "react-native-paper";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS } from "../theme/appTheme";
 
 import HomeScreen from "../screens/Authentication/Home";
@@ -77,7 +78,13 @@ function AppTabs() {
       <Tab.Screen
         name="Dashboard"
         component={ProtectedScreen}
-        options={{ title: "Inicio" }}
+        options={{
+          title: "Inicio",
+          headerTitleAlign: "center",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Historial de Entregas"
@@ -94,9 +101,35 @@ function AppTabs() {
               color={COLORS.primaryButton}
             />
           ),
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="history" color={color} size={size} />
+          ),
         })}
       />
-      <Tab.Screen name="Rutas Disponibles" component={AvailableRoutesScreen} />
+      <Tab.Screen
+        name="Rutas Disponibles"
+        component={AvailableRoutesScreen}
+        options={({ navigation }) => ({
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <Appbar.BackAction
+              onPress={() => {
+                if (navigation.canGoBack()) {
+                  navigation.goBack();
+                }
+              }}
+              color={COLORS.primaryButton}
+            />
+          ),
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="map-marker-path"
+              color={color}
+              size={size}
+            />
+          ),
+        })}
+      />
     </Tab.Navigator>
   );
 }

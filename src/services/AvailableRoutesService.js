@@ -1,5 +1,4 @@
 import { useAuthAxios } from '../hooks/useAuthAxios';
-import { useAxios } from '../hooks/useAxios'; 
 import { useCallback } from 'react';
 
 export const AvailableRoutesService = () => {
