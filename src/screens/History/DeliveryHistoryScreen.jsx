@@ -28,7 +28,9 @@ const DeliveryHistoryScreen = () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await fetchDeliveries(user.id);
+
+      const data = await fetchDeliveries(user?.id);
+
       setDeliveries(data);
     } catch (err) {
       console.error("Failed to load deliveries in component", err);
