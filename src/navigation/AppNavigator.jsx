@@ -11,7 +11,6 @@ import LoginScreen from "../screens/Authentication/Login";
 import RegisterScreen from "../screens/Authentication/Register";
 import VerifyAccount from "../screens/Authentication/VerifyAccount";
 import EmailRecoveryScreen from "../screens/Authentication/EmailRecovery";
-import TokenVerificationScreen from "../screens/Authentication/TokenVerification";
 import NewPasswordSetupScreen from "../screens/Authentication/NewPasswordSetup";
 import PasswordChangedScreen from "../screens/Authentication/PasswordChanged";
 import ProtectedScreen from "../screens/ProtectedScreen";
@@ -36,10 +35,6 @@ function AuthStack() {
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="VerifyAccount" component={VerifyAccount} />
       <Stack.Screen name="EmailRecovery" component={EmailRecoveryScreen} />
-      <Stack.Screen
-        name="TokenVerification"
-        component={TokenVerificationScreen}
-      />
       <Stack.Screen
         name="NewPasswordSetup"
         component={NewPasswordSetupScreen}
