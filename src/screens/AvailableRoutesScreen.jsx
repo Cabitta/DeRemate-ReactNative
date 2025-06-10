@@ -23,10 +23,7 @@ const AvailableRoutesScreen = () => {
     }
 
     useEffect(() => {
-        const timer = setTimeout(() => {
             fetchData()
-        }, 2000)
-        return () => clearTimeout(timer)
     }, [])
 
     // Pantalla de carga
