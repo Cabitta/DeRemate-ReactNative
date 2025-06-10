@@ -1,10 +1,16 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native-paper';
+import { COLORS } from "../theme/appTheme";
 
 const Loading = () => (
     <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Cargando...</Text>
+        <ActivityIndicator
+            animating={true}
+            size="large"
+            color={COLORS.primaryButton}
+            style={styles.loader}/>
+        <Text variant="titleMedium" style={{ color: COLORS.primaryButton }}>Cargando...</Text>
     </View>
 );
 
@@ -13,6 +19,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    loader: {
+    marginTop: 50,
+    alignSelf: "center",
     },
 });
 

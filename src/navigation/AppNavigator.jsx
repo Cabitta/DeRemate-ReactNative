@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Appbar } from "react-native-paper";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { COLORS } from "../theme/appTheme";
 
 import HomeScreen from "../screens/Authentication/Home";
@@ -17,6 +18,7 @@ import ProtectedScreen from "../screens/ProtectedScreen";
 import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
 import { AuthContext } from "../context/AuthContext";
 import AvailableRoutesScreen from "../screens/AvailableRoutesScreen";
+import DeliveryDetailsScreen from "../screens/History/DeliveryDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -76,7 +78,13 @@ function AppTabs() {
       <Tab.Screen
         name="Dashboard"
         component={ProtectedScreen}
-        options={{ title: "Inicio" }}
+        options={{
+          title: "Inicio",
+          headerTitleAlign: "center",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Historial de Entregas"
@@ -93,11 +101,35 @@ function AppTabs() {
               color={COLORS.primaryButton}
             />
           ),
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="history" color={color} size={size} />
+          ),
         })}
       />
       <Tab.Screen
         name="Rutas Disponibles"
-        component={AvailableRoutesScreen}/>
+        component={AvailableRoutesScreen}
+        options={({ navigation }) => ({
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <Appbar.BackAction
+              onPress={() => {
+                if (navigation.canGoBack()) {
+                  navigation.goBack();
+                }
+              }}
+              color={COLORS.primaryButton}
+            />
+          ),
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="map-marker-path"
+              color={color}
+              size={size}
+            />
+          ),
+        })}
+      />
     </Tab.Navigator>
   );
 }
@@ -109,6 +141,20 @@ function ProtectedStack() {
         name="MainApp"
         component={AppTabs}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DeliveryDetailsScreen"
+        component={DeliveryDetailsScreen}
+        options={({ navigation }) => ({
+          title: "Detalles de la Entrega",
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <Appbar.BackAction
+              onPress={() => navigation.goBack()}
+              color={COLORS.primaryButton}
+            />
+          ),
+        })}
       />
       {/* Aquí puedes añadir más pantallas protegidas que no sean tabs */}
     </Stack.Navigator>
