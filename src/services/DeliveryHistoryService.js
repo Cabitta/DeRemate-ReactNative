@@ -1,8 +1,8 @@
-import { useAxios } from '../hooks/useAxios'; 
+import { useAuthAxios } from '../hooks/useAuthAxios';
 import { useCallback } from 'react';
 
 export const useDeliveryHistoryService = () => {
-  const axiosInstance = useAxios(); 
+  const axiosInstance = useAuthAxios(); 
 
   const fetchDeliveries = useCallback(async (agentId) => {
     try {
