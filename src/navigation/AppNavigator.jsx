@@ -18,6 +18,7 @@ import ProtectedScreen from "../screens/ProtectedScreen";
 import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
 import { AuthContext } from "../context/AuthContext";
 import AvailableRoutesScreen from "../screens/AvailableRoutesScreen";
+import DeliveryDetailsScreen from "../screens/History/DeliveryDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -140,6 +141,20 @@ function ProtectedStack() {
         name="MainApp"
         component={AppTabs}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DeliveryDetailsScreen"
+        component={DeliveryDetailsScreen}
+        options={({ navigation }) => ({
+          title: "Detalles de la Entrega",
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <Appbar.BackAction
+              onPress={() => navigation.goBack()}
+              color={COLORS.primaryButton}
+            />
+          ),
+        })}
       />
       {/* Aquí puedes añadir más pantallas protegidas que no sean tabs */}
     </Stack.Navigator>
