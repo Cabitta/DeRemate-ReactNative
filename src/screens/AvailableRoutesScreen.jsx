@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, RefreshControl } from 'react-native'
 import Loading from '../components/Loading'
 import AvailableRoutesCard from '../components/AvailableRoutesCard'
 import { AvailableRoutesService } from '../services/AvailableRoutesService'
@@ -9,32 +9,52 @@ import { Text } from 'react-native-paper'
 
 const AvailableRoutesScreen = () => {
     const [loading, setLoading] = useState(true)
+    const [refreshing, setRefreshing] = useState(false)
     const [availableRoutes, setAvailableRoutes] = useState([])
-    const fetchAvailableRoutes = AvailableRoutesService()
+    
     const { user } = useContext(AuthContext)
+    const fetchAvailableRoutes = AvailableRoutesService()
+
     const fetchData = async () => {
-        setLoading(true)
         try {
             const data = await fetchAvailableRoutes(user?.id)
             setAvailableRoutes(data || [])
         } catch (error) {
             setAvailableRoutes(null)
-        } finally {
-            setLoading(false)
         }
+    }
+    const onRefresh = async () => {
+        console.log("onRefresh call")
+        setRefreshing(true)
+        await fetchData()
+        setRefreshing(false)
     }
 
     useEffect(() => {
-        fetchData()
+    const initialFetch = async () => {
+        setLoading(true)
+        await fetchData()
+        setLoading(false)
+    }
+    initialFetch()
     }, [])
 
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.primaryBackground }}>
         {loading ? (
-            Loading()
+            <Loading/>
         ) : (
             <ScrollView 
-                contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}>
+                contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}
+                refreshControl={
+                          <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            colors={[COLORS.primaryButton]}
+                            tintColor={COLORS.primaryButton}
+                          />
+                        }
+            >
                 {availableRoutes === null ? (
                     <Text variant="titleLarge" style={{ color: COLORS.primaryButton }}>
                         Ocurrió un error al cargar las rutas. Intenta nuevamente.
