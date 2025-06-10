@@ -12,20 +12,20 @@ const AvailableRoutesScreen = () => {
     const { user } = useContext(AuthContext)
 
     useEffect(() => {
-        // const fetchData = async () => {
-        //     setLoading(true)
-        //     try {
-        //         const data = await fetchAvailableRoutes(user?.id)
-        //         setAvailableRoutes(data || [])
-        //     } catch (error) {
-        //         setAvailableRoutes([])
-        //     } finally {
-        //         setLoading(false)
-        //     }
-        // }
-        // fetchData()
-        setAvailableRoutes(routes) // Usar datos de ejemplo
-        setLoading(false)
+        const fetchData = async () => {
+            setLoading(true)
+            try {
+                const data = await fetchAvailableRoutes(user?.id)
+                setAvailableRoutes(data || [])
+            } catch (error) {
+                setAvailableRoutes([])
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+        // setAvailableRoutes(routes) // Usar datos de ejemplo
+        // setLoading(false)
     }, [])
 
     if (loading) {
