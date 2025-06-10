@@ -17,20 +17,21 @@ const DeliveryHistoryScreen = () => {
   const deliveryId = useAuthStore((state) => state.user?.id);
 
   const loadDeliveries = useCallback(async () => {
-    if (!deliveryId) return;
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await fetchDeliveries(deliveryId);
-        setDeliveries(data);
-      } catch (err) {
-        console.error("Failed to load deliveries in component", err);
-        setError(err);
-        setDeliveries([]);
-      } finally {
-        setLoading(false);
-      }
-  }, [deliveryId, fetchDeliveries]);
+    if (!user?.id) return;
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await fetchDeliveries(user?.id);
+      
+      setDeliveries(data);
+    } catch (err) {
+      console.error("Failed to load deliveries in component", err);
+      setError(err);
+      setDeliveries([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [user?.id, fetchDeliveries]);
 
   useEffect(() => {
     loadDeliveries();
