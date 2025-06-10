@@ -1,23 +1,23 @@
 import { useAuthAxios } from "../hooks/useAuthAxios";
 import { useCallback } from "react";
 
-export const useDeliveryHistoryService = () => {
+export const useDeliveryDetailsService = () => {
   const axiosInstance = useAuthAxios();
 
-  const fetchDeliveries = useCallback(
-    async (agentId) => {
+  const fetchDeliveryDetails = useCallback(
+    async (routeId) => {
       try {
         const response = await axiosInstance.get(
-          `/delivery-history-list?deliveryId=${agentId}`
+          `/delivery-details/${routeId}`
         );
         return response.data;
       } catch (error) {
-        console.error("Error fetching deliveries", error);
-        return [];
+        console.error("Error fetching delivery details", error);
+        throw error;
       }
     },
     [axiosInstance]
   );
 
-  return { fetchDeliveries };
+  return { fetchDeliveryDetails };
 };

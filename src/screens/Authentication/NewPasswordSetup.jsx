@@ -1,12 +1,36 @@
 import { StatusBar } from 'expo-status-bar';
 import {StyleSheet, Text, View, Image, Button, TouchableOpacity, SafeAreaView} from 'react-native';
-import React from "react";
+import React, {useState} from "react";
 import image from '../../images/Logo.png'
 import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-web';
+import { NewPasswordSetupService } from '../../services/NewPasswordSetupService';
+import { Alert} from 'react-native';
+import InputText from '../../components/InputText';
+import CustomButton from '../../components/CustomButton';
 
 const NewPasswordSetupScreen =()=>{
   const navigation = useNavigation()
+    const fetchNewPasswordSetup = NewPasswordSetupService()
+    const [code, setCode] = useState('');
+    const [newpassword, setNewpassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const handleNewPasswordSetup = async () => {
+      console.log("Entra a modificar contraseña");
+      if (!code || !newpassword || !confirmPassword) {
+        Alert.alert('Campos requeridos', 'Por favor complete ambos campos.');
+        return;
+      }
+      try {
+        console.log("Intentando modificar contraseña")
+        const data = await fetchNewPasswordSetup(code, newpassword, confirmPassword);
+        console.log('Contraseña modificada exitosamente:', data);
+        navigation.navigate('PasswordChanged');
+      } catch (error) {
+        console.log("Error en modificacion de contraseña")
+        Alert.alert('Error de modificacion de contraseña', 'Token o contraseña no aceptada.');
+      }
+  }
     return (
         <View style={styles.container}>
               <Image
@@ -15,12 +39,10 @@ const NewPasswordSetupScreen =()=>{
               />
               <Text style={styles.title}>Reestablecimiento de Contraseña</Text>
               <StatusBar style="auto"/>
-              <TextInput style={styles.input} placeholder='Ingrese la contraseña'/>
-              <TextInput style={styles.input} placeholder='Reingrese la contraseña'/>
-              <TouchableOpacity style={styles.button}
-              onPress={()=> navigation.navigate('PasswordChanged')}>
-              <Text style={styles.buttonText}>Enviar</Text>
-              </TouchableOpacity>
+              <InputText placeholder="Ingrese el Token de Verificacion" value={code} onChangeText={setCode}/>
+              <InputText placeholder="Ingrese la contraseña" value={newpassword} onChangeText={setNewpassword} secureTextEntry/>
+              <InputText placeholder="Reingrese la contraseña" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry/>
+              <CustomButton title="Enviar" onPress={handleNewPasswordSetup()} />
             </View>
     );
 }
@@ -51,21 +73,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 30
   },
-  button:{
-    backgroundColor: "#8b0000",
-    padding: 10,
-    marginTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 30
-  },
-  buttonText:{
-    fontSize: 15,
-    color: "#ffffff",
-    width: 200,
-    height: 25,
-    textAlign: "center"
-  }
 });
 
 export default NewPasswordSetupScreen

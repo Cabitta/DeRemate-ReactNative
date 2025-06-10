@@ -4,86 +4,77 @@ import {
   Text,
   View,
   Image,
+  Button,
   TouchableOpacity,
   SafeAreaView,
-  Alert,
-  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import image from "../../images/Logo.png";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native";
-import axios from "axios";
-import { useAuthStore } from "../../store/authStore";
+import { LoginService } from "../../services/LoginService";
+import { Alert } from "react-native";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import InputText from "../../components/InputText";
+import CustomButton from "../../components/CustomButton";
 
-const API_URL = "http://192.168.0.228:3000/api/login";
+//import {TextInput} from 'react-native-web';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { setTokens, setUser } = useAuthStore();
-
+  const fetchLogin = LoginService();
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleLogin = async () => {
+    console.log("Entra al handleLogin");
+    console.log("Email:", email);
+    console.log("Password:", password);
+    if (!email || !password) {
+      Alert.alert("Campos requeridos", "Por favor complete ambos campos.");
+      return;
+    }
     try {
-      const response = await axios.post(API_URL, {
-        email,
-        password,
-      });
-
-      const { token, refreshToken, expirationDate, user } = response.data;
-
-      setTokens({
-        token,
-        refreshToken,
-        expirationDate,
-      });
-
-      console.log(response.data);
-
-      setUser(user);
+      console.log("Intentando iniciar sesion");
+      const response = await fetchLogin(email, password);
+      console.log("Login exitoso:", response);
+      const { token, refreshToken, expirationDate, user } = response;
+      const tokens = { token, refreshToken, expirationDate };
+      await login(tokens, user);
+      navigation.navigate("ProtectedScreen");
     } catch (error) {
-      console.error("Error de login:", error);
-      Alert.alert("Error", "Credenciales incorrectas o error de servidor");
+      console.log("Error buscado", error.message);
+      Alert.alert(
+        "Error de autenticación",
+        "Usuario o contraseña incorrectos."
+      );
     }
   };
-
   return (
     <View style={styles.container}>
       <Image source={image} style={[styles.image, { resizeMode: "contain" }]} />
-      <Text style={styles.title}>Inicio de Sesión</Text>
+      <Text style={styles.title}>Inicio de Sesion</Text>
       <StatusBar style="auto" />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Ingrese su email"
+      <InputText
+        placeholder="Ingrese el usuario"
         value={email}
         onChangeText={setEmail}
       />
-
-      <TextInput
-        style={styles.input}
+      <InputText
         placeholder="Ingrese la contraseña"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Iniciar Sesión</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
+      <CustomButton title="Iniciar Sesión" onPress={handleLogin} />
+      <CustomButton
+        title="Recuperar Contraseña"
         onPress={() => navigation.navigate("EmailRecovery")}
-      >
-        <Text style={styles.buttonText}>Recuperar Contraseña</Text>
-      </TouchableOpacity>
+      />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -101,33 +92,6 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     alignSelf: "center",
-  },
-  input: {
-    padding: 10,
-    marginTop: 15,
-    borderWidth: 1,
-    borderColor: "#777",
-    height: 40,
-    width: 250,
-    alignSelf: "center",
-    borderRadius: 30,
-    backgroundColor: "#ffffff",
-  },
-  button: {
-    backgroundColor: "#8b0000",
-    padding: 10,
-    marginTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 30,
-    width: 250,
-  },
-  buttonText: {
-    fontSize: 15,
-    color: "#ffffff",
-    width: 200,
-    height: 25,
-    textAlign: "center",
   },
 });
 
