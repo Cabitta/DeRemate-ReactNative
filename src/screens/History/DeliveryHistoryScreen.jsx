@@ -6,6 +6,7 @@ import { StyleSheet, View } from "react-native";
 import { COLORS } from "../../theme/appTheme";
 import { useDeliveryHistoryService } from "../../services/DeliveryHistoryService";
 import { AuthContext } from "../../context/AuthContext";
+import Loading from "../../components/Loading";
 
 const DeliveryHistoryScreen = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -62,13 +63,7 @@ const DeliveryHistoryScreen = () => {
           />
         }
       >
-        {loading ? (
-          <ActivityIndicator
-            animating={true}
-            size="large"
-            color={COLORS.primaryButton}
-            style={styles.loader}
-          />
+        {loading ? (Loading()
         ) : error ? (
           <Text style={styles.errorText}>
             Error al cargar las entregas. Por favor, intente nuevamente.
