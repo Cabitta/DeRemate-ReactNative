@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { ActivityIndicator, Text, View, ScrollView } from 'react-native'
+import { useState, useEffect, useContext } from 'react'
+import { Text, View, ScrollView } from 'react-native'
 import Loading from '../components/Loading'
 import AvailableRoutesCard from '../components/AvailableRoutesCard'
 import { AvailableRoutesService } from '../services/AvailableRoutesService'
