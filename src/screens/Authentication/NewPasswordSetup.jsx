@@ -42,7 +42,7 @@ const NewPasswordSetupScreen =()=>{
               <InputText placeholder="Ingrese el Token de Verificacion" value={code} onChangeText={setCode}/>
               <InputText placeholder="Ingrese la contraseña" value={newpassword} onChangeText={setNewpassword} secureTextEntry/>
               <InputText placeholder="Reingrese la contraseña" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry/>
-              <CustomButton title="Enviar" onPress={handleNewPasswordSetup()} />
+              <CustomButton title="Enviar" onPress={handleNewPasswordSetup} />
             </View>
     );
 }
