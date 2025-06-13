@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { COLORS } from "../theme/appTheme";
@@ -21,8 +20,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     loader: {
-    marginTop: 50,
-    alignSelf: "center",
+        marginTop: 50,
+        alignSelf: "center",
     },
 });
 
