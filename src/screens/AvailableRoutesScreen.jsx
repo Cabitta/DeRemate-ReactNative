@@ -6,6 +6,7 @@ import AvailableRoutesCard from '../components/AvailableRoutesCard'
 import { AvailableRoutesService } from '../services/AvailableRoutesService'
 import { AuthContext } from '../context/AuthContext'
 import { COLORS } from '../theme/appTheme'
+import GlobalBackground from '../components/GlobalBackground'
 
 const AvailableRoutesScreen = () => {
     const [loading, setLoading] = useState(true)
@@ -60,7 +61,7 @@ const AvailableRoutesScreen = () => {
     }
 
     return (
-        <View>
+        <GlobalBackground>
             <ScrollView 
                 contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}
                 refreshControl={
@@ -77,7 +78,7 @@ const AvailableRoutesScreen = () => {
                     ))
                 }
             </ScrollView>
-        </View>
+        </GlobalBackground>
     )
 }
 

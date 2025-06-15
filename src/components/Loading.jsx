@@ -1,16 +1,19 @@
 import { View, StyleSheet } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { COLORS } from "../theme/appTheme";
+import GlobalBackground from './GlobalBackground';
 
 const Loading = () => (
-    <View style={styles.container}>
-        <ActivityIndicator
-            animating={true}
-            size="large"
-            color={COLORS.primaryButton}
-            style={styles.loader}/>
-        <Text variant="titleMedium" style={{ color: COLORS.primaryButton }}>Cargando...</Text>
-    </View>
+    <GlobalBackground>
+        <View style={styles.container}>
+            <ActivityIndicator
+                animating={true}
+                size="large"
+                color={COLORS.primaryButton}
+                style={styles.loader}/>
+            <Text variant="titleMedium" style={{ color: COLORS.primaryButton }}>Cargando...</Text>
+        </View>
+    </GlobalBackground>
 );
 
 const styles = StyleSheet.create({
