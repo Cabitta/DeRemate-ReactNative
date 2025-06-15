@@ -1,14 +1,15 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, use } from 'react'
 import { View, ScrollView, RefreshControl } from 'react-native'
 import Loading from '../components/Loading'
+import ErrorMessage from '../components/ErrorMessage'
 import AvailableRoutesCard from '../components/AvailableRoutesCard'
 import { AvailableRoutesService } from '../services/AvailableRoutesService'
 import { AuthContext } from '../context/AuthContext'
 import { COLORS } from '../theme/appTheme'
-import { Text } from 'react-native-paper'
 
 const AvailableRoutesScreen = () => {
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
     const [availableRoutes, setAvailableRoutes] = useState([])
     
@@ -17,58 +18,66 @@ const AvailableRoutesScreen = () => {
 
     const fetchData = async () => {
         try {
+            setError(false)
             const data = await fetchAvailableRoutes(user?.id)
-            setAvailableRoutes(data || [])
+            setAvailableRoutes(data)
         } catch (error) {
-            setAvailableRoutes(null)
+            setError(true)
+        } finally {
+            setLoading(false)
         }
     }
-    const onRefresh = async () => {
-        console.log("onRefresh call")
+
+    const handleRefresh = async () => {
+        console.log("handleRefresh call")
         setRefreshing(true)
         await fetchData()
         setRefreshing(false)
     }
 
-    useEffect(() => {
-    const initialFetch = async () => {
+    const handleRetry = () => {
         setLoading(true)
-        await fetchData()
-        setLoading(false)
+        fetchData()
+    } 
+
+    useEffect(() => {
+    const initialFetch = () => {
+        fetchData()
     }
     initialFetch()
     }, [])
 
+    if (loading) {
+        return <Loading />
+    }
+
+    if (error) {
+        return <ErrorMessage message="Ocurrió un error al cargar las rutas. Intentalo nuevamente más tarde." onPress={handleRetry} />
+    }
+
+    if (availableRoutes.length === 0 && !error) {
+        return <ErrorMessage message="No tenés rutas disponibles." onPress={handleRetry} />
+    }
+
     return (
-        <View style={{ flex: 1, backgroundColor: COLORS.primaryBackground }}>
-        {loading ? (
-            <Loading/>
-        ) : (
+        <View>
             <ScrollView 
                 contentContainerStyle={{ alignItems: 'center', paddingBottom: 24, flexGrow: 1, justifyContent: 'center' }}
                 refreshControl={
                           <RefreshControl
                             refreshing={refreshing}
-                            onRefresh={onRefresh}
+                            onRefresh={handleRefresh}
                             colors={[COLORS.primaryButton]}
                             tintColor={COLORS.primaryButton}
                           />
                         }
             >
-                {availableRoutes === null ? (
-                    <Text variant="titleLarge" style={{ color: COLORS.primaryButton }}>
-                        Ocurrió un error al cargar las rutas. Intenta nuevamente.
-                    </Text>
-                ) : availableRoutes.length === 0 ? (
-                    <Text variant="titleLarge" style={{ color: COLORS.primaryButton }}>No tenés rutas disponibles.</Text>
-                ) : (
-                    availableRoutes.map((route, idx) => (
-                        <AvailableRoutesCard key={idx} availableRoute={route} />
+                {availableRoutes.map((route) => (
+                        <AvailableRoutesCard availableRoute={route} />
                     ))
-                )}
+                }
             </ScrollView>
-        )}
-    </View>
+        </View>
     )
 }
 
