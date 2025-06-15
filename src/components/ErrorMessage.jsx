@@ -1,7 +1,7 @@
 import { Text } from 'react-native-paper'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { COLORS} from '../theme/appTheme'
+import { COLORS } from '../theme/appTheme'
 import ButtonPaper from './ButtonPaper'
 
 const ErrorMessage = ({message = "Ocurrio un error. Intentelo de nuevo más tarde.", onPress}) => {
