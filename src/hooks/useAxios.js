@@ -2,13 +2,14 @@ import axios from "axios";
 import { useContext, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { getBaseURL } from "./useAuthAxios";
 
 export const useAxios = () => {
   const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
   const axiosInstance = useRef(
     axios.create({
-      baseURL: "http://localhost:3000/api", //http://10.0.2.2:3000/api",
+      baseURL: getBaseURL(),
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
