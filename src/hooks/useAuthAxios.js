@@ -3,6 +3,15 @@ import { useContext, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
+import { Platform } from "react-native";
+
+export const getBaseURL = () => {
+    if (Platform.OS === 'android') {
+      return 'http://10.0.2.2:3000/api'; // Android emulator
+    } else {
+      return 'http://localhost:3000/api'; // Web o iOS
+    }
+  };
 
 export const useAuthAxios = () => {
   const { tokens, login, logout } = useContext(AuthContext);
@@ -10,7 +19,7 @@ export const useAuthAxios = () => {
 
   const axiosInstance = useRef(
     axios.create({
-      baseURL: "http://10.0.2.2:3000/api", //"http://localhost:3000/api",
+      baseURL: getBaseURL(),
       timeout: 10000,
     })
   );
