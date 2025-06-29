@@ -31,20 +31,28 @@ const headerLeft = ({ navigation }) => ({
       color={COLORS.primaryButton}
     />
   ),
-})
+});
 
 // Stack para usuarios no autenticados
 function AuthStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true, headerTitleAlign: "center" }}>
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+    <Stack.Navigator
+      screenOptions={{ headerShown: true, headerTitleAlign: "center" }}
+    >
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="VerifyAccount" component={VerifyAccount} />
       <Stack.Screen name="EmailRecovery" component={EmailRecoveryScreen} />
-      <Stack.Screen name="NewPasswordSetup" component={NewPasswordSetupScreen} />
+      <Stack.Screen
+        name="NewPasswordSetup"
+        component={NewPasswordSetupScreen}
+      />
       <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
-      <Stack.Screen name="AppTabs" component={AppTabs} />
     </Stack.Navigator>
   );
 }
@@ -52,17 +60,23 @@ function AuthStack() {
 // Tabs para la navegación dentro del área protegida
 function AppTabs() {
   return (
-    <Tab.Navigator screenOptions={{ tabBarShowLabel: false, headerTitleAlign: "center", tabBarStyle: { backgroundColor: COLORS.blanco } }}>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerTitleAlign: "center",
+        tabBarStyle: { backgroundColor: COLORS.blanco },
+      }}
+    >
       <Tab.Screen
         name="ProtectedScreen"
         component={ProtectedScreen}
         options={{
           title: "Inicio",
           tabBarIcon: () => (
-            <Icon source="home" color={COLORS.gris} size={30}/>
+            <Icon source="home" color={COLORS.gris} size={30} />
           ),
         }}
-        />
+      />
       <Tab.Screen
         name="DeliveryHistoryStack"
         component={DeliveryHistoryStack}
@@ -70,26 +84,28 @@ function AppTabs() {
           title: "Historial de Entregas",
           headerShown: false,
           tabBarIcon: () => (
-            <Icon source="history" color={COLORS.gris} size={30}/>
+            <Icon source="history" color={COLORS.gris} size={30} />
           ),
         }}
-        />
+      />
       <Tab.Screen
         name="AvailableRoutesScreen"
         component={AvailableRoutesScreen}
         options={{
           title: "Rutas Disponibles",
           tabBarIcon: () => (
-            <Icon source="map-marker" color={COLORS.gris} size={30}/>
+            <Icon source="map-marker" color={COLORS.gris} size={30} />
           ),
         }}
-        />
+      />
     </Tab.Navigator>
   );
 }
 
 const DeliveryHistoryStack = () => (
-  <Stack.Navigator screenOptions={{ headerShown: true, headerTitleAlign: "center" }}>
+  <Stack.Navigator
+    screenOptions={{ headerShown: true, headerTitleAlign: "center" }}
+  >
     <Stack.Screen
       name="DeliveryHistoryScreen"
       component={DeliveryHistoryScreen}
@@ -100,10 +116,10 @@ const DeliveryHistoryStack = () => (
     <Stack.Screen
       name="DeliveryDetailsScreen"
       component={DeliveryDetailsScreen}
-      options={ ({ navigation }) => ({
+      options={({ navigation }) => ({
         title: "Detalles de Entrega",
         ...headerLeft({ navigation }),
-      }) }
+      })}
     />
   </Stack.Navigator>
 );
@@ -111,7 +127,7 @@ const DeliveryHistoryStack = () => (
 function AppNavigator() {
   const { tokens, user } = useContext(AuthContext);
   const isAuthenticated = !!tokens && !!user;
-  
+
   return (
     <NavigationContainer>
       {isAuthenticated ? <AppTabs /> : <AuthStack />}
