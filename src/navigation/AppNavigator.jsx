@@ -58,20 +58,10 @@ function AppTabs() {
         />
       <Tab.Screen
         name="DeliveryHistoryScreen"
-        component={DeliveryHistoryScreen}
+        component={DeliveryHistoryStack}
         options={({ navigation }) => ({
           title: "Historial de Entregas",
-          headerTitleAlign: "center",
-          headerLeft: () => (
-            <Appbar.BackAction
-            onPress={() => {
-              if (navigation.canGoBack()) {
-                navigation.goBack();
-              }
-            }}
-              color={COLORS.primaryButton}
-              />
-          ),
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="history" color={color} size={size} />
           ),
@@ -105,6 +95,46 @@ function AppTabs() {
     </Tab.Navigator>
   );
 }
+
+const DeliveryHistoryStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="DeliveryHistoryScreen"
+      component={DeliveryHistoryScreen}
+      options={({ navigation }) => ({
+        title: "Historial de Entregas",
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <Appbar.BackAction
+          onPress={() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            }
+          }}
+            color={COLORS.primaryButton}
+            />
+        ),
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="history" color={color} size={size} />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name="DeliveryDetailsScreen"
+      component={DeliveryDetailsScreen}
+      options={({ navigation }) => ({
+        title: "Detalles de la Entrega",
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <Appbar.BackAction
+            onPress={() => navigation.goBack()}
+            color={COLORS.primaryButton}
+          />
+        ),
+      })}
+    />
+  </Stack.Navigator>
+);
 
 function AppNavigator() {
   const { tokens, user } = useContext(AuthContext);

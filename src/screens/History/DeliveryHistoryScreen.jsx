@@ -1,11 +1,6 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
-import {
-  ScrollView,
-  RefreshControl,
-  Touchable,
-  TouchableOpacity,
-} from "react-native";
-import { ActivityIndicator, Text } from "react-native-paper";
+import { useEffect, useState, useCallback, useContext } from "react";
+import { ScrollView, RefreshControl, TouchableOpacity } from "react-native";
+import { Text } from "react-native-paper";
 import DeliveryHistoryCard from "../../components/DeliveryHistoryCard";
 import { StyleSheet, View } from "react-native";
 import { COLORS } from "../../theme/appTheme";
