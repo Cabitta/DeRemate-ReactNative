@@ -28,23 +28,17 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = async () => {
-    console.log("Entra al handleLogin");
-    console.log("Email:", email);
-    console.log("Password:", password);
     if (!email || !password) {
       Alert.alert("Campos requeridos", "Por favor complete ambos campos.");
       return;
     }
     try {
-      console.log("Intentando iniciar sesion");
       const response = await fetchLogin(email, password);
-      console.log("Login exitoso:", response);
       const { token, refreshToken, expirationDate, user } = response;
       const tokens = { token, refreshToken, expirationDate };
       await login(tokens, user);
-      navigation.navigate("ProtectedScreen");
+      navigation.navigate("MainApp");
     } catch (error) {
-      console.log("Error buscado", error.message);
       Alert.alert(
         "Error de autenticación",
         "Usuario o contraseña incorrectos."
