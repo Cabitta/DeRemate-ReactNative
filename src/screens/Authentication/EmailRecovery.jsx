@@ -15,19 +15,14 @@ const EmailRecoveryScreen =()=>{
   const fetchEmailRecovery = EmailRecoveryService()
   const [email, setEmail] = useState('');
   const handleEmailRecovery = async () => {
-    console.log("Entra al handleEmailRecovery");
-    console.log("Email:", email);
     if (!email) {
       Alert.alert('Campos requeridos', 'Por favor complete ambos campos.');
       return;
     }
     try {
-      console.log("Intentando recuperar contraseña")
       const data = await fetchEmailRecovery(email);
-      console.log('Email encontrado:', data);
       navigation.navigate('NewPasswordSetup');
     }catch (error) {
-      console.log("Error en recuperacion de contraseña")
       Alert.alert('Error de recuperacion de contraseña', 'No existe usuario con ese email');
     }
   }

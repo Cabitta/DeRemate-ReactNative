@@ -1,25 +1,14 @@
+import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Button,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
 import image from "../../images/Logo.png";
 import { useNavigation } from "@react-navigation/native";
-import { TextInput } from "react-native";
 import { LoginService } from "../../services/LoginService";
 import { Alert } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import InputText from "../../components/InputText";
 import CustomButton from "../../components/CustomButton";
-
-//import {TextInput} from 'react-native-web';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -28,23 +17,17 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = async () => {
-    console.log("Entra al handleLogin");
-    console.log("Email:", email);
-    console.log("Password:", password);
     if (!email || !password) {
       Alert.alert("Campos requeridos", "Por favor complete ambos campos.");
       return;
     }
     try {
-      console.log("Intentando iniciar sesion");
       const response = await fetchLogin(email, password);
-      console.log("Login exitoso:", response);
       const { token, refreshToken, expirationDate, user } = response;
       const tokens = { token, refreshToken, expirationDate };
       await login(tokens, user);
-      navigation.navigate("ProtectedScreen");
+      navigation.navigate("AppTabs");
     } catch (error) {
-      console.log("Error buscado", error.message);
       Alert.alert(
         "Error de autenticación",
         "Usuario o contraseña incorrectos."

@@ -8,9 +8,7 @@ export const LoginService = () => {
     const fetchLogin = useCallback(async(email, password)=>
             
     {
-        console.log("Intentando iniciar sesion")
         try{
-            console.log("Entra aca")
             const response = await axiosInstance.post('/login', {email, password})
             return response.data
         }
