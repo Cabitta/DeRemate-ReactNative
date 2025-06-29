@@ -25,17 +25,13 @@ const DeliveryHistoryCard = ({ delivery }) => {
 
 const styles = StyleSheet.create({
   card: {
+    backgroundColor: COLORS.cardBackground,
     marginHorizontal: 16,
     marginVertical: 8,
     marginTop: 8,
-    backgroundColor: COLORS.buttonText, 
     borderRadius: 8,
     elevation: 3,
-    shadowColor: COLORS.titleText, 
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    backgroundColor: COLORS.cardBackground,
+    boxShadow: `0 1px 1.41px ${COLORS.titleText}`,
   },
   cardTitle: {
     color: COLORS.primaryButton, 
