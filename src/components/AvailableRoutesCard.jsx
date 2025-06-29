@@ -39,7 +39,7 @@ const AvailableRoutesCard = ({ availableRoute }) => {
         title={`Confirmar ruta: ${availableRoute.address}`}
       >
         <Text variant="bodyMedium" style={{ marginBottom: 8 }}>
-    ⚠️    Advertencia importante:
+          ⚠️  Advertencia importante:
         </Text>
         <Text variant="bodyMedium" style={{ marginBottom: 12 }}>
           Estás a punto de aceptar esta ruta de entrega. Esta acción es irreversible.
