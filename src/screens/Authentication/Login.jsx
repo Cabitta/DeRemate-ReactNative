@@ -26,7 +26,6 @@ const LoginScreen = () => {
       const { token, refreshToken, expirationDate, user } = response;
       const tokens = { token, refreshToken, expirationDate };
       await login(tokens, user);
-      navigation.navigate("AppTabs");
     } catch (error) {
       Alert.alert(
         "Error de autenticación",
@@ -36,7 +35,7 @@ const LoginScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <Image source={image} style={ styles.image } resizeMode="contain" />
+      <Image source={image} style={styles.image} resizeMode="contain" />
       <Text style={styles.title}>Inicio de Sesion</Text>
       <StatusBar style="auto" />
       <InputText
