@@ -6,6 +6,7 @@
 > Aplicación móvil para entrega de pedidos. Desarrollada con React Native + Expo.
 
 ## 🖥️ Demo
+![elon](https://github.com/user-attachments/assets/2f52f273-29f5-4157-ade6-a7f2f4bf7001)
 
 ## 🛠 Requisitos Previos
 
