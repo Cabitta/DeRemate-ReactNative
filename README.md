@@ -1,47 +1,77 @@
-# DeRemate-ReactNative
-1. Autenticación y Registro de Usuarios: 
-➔ Implementar un sistema de registro que incluya validación de correo electrónico 
-mediante el envío de un código de confirmación. 
-➔ Sistema de inicio de sesión seguro con opciones de recuperación de contraseña. 
+# 🚚 De Remate - React Native
 
-2. Gestión de Rutas - Home Screen:  
-➔ Mostrar una lista de rutas disponibles para el repartidor.  
-➔ Las rutas se desbloquean escaneando un código QR asociado con el paquete a 
-entregar. Es importante dar información del paquete para que el repartidor pueda 
-ubicarlo en el depósito (ubicación, etc). 
-➔ Registro de cada ruta asignada al usuario y su estado (pendiente, en curso, 
-completada). 
+![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=white)
+![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
-3. Proceso de Entrega: 
-➔ Una vez escaneado el código QR, el repartidor recibe los detalles de la ruta y 
-comienza el proceso de entrega.  
-➔ Cuando dicha ruta comienza, el repartidor va a poder navegar hacia la ruta destino 
-teniendo una integración con google maps. A partir de la dirección otorgada, se 
-abrirá dicha aplicación externa para ayudar a trazar la ruta. 
-➔ El repartidor marcará una entrega como completa mediante la introducción de un 
-código de confirmación proporcionado por el comprador. 
+> Aplicación móvil para entrega de pedidos. Desarrollada con React Native + Expo.
 
-4. Historial de Entregas: 
-➔ Proporcionar una sección donde los repartidores puedan ver un historial de sus 
-entregas completadas, con detalles como tiempo de entrega, cliente, y estado final. 
+## 🖥️ Demo
 
-5. Notificaciones Push: 
-➔ Integrar notificaciones push para alertar a los repartidores sobre nuevas rutas 
-disponibles o cambios en las entregas pendientes.
+## 🛠 Requisitos Previos
 
+Antes de comenzar, asegúrate de tener instalado:
 
-Tenemos que tener una rama por cada funcionalidad, que se llamaran de la siguiente manera:
-- feature/authentication
-- feature/register
-- feature/route-managment
-- feature/home-screen
-- feature/delivery
-- feature/delivery-history
-- feature/push-notifications
+- Node.js (v16 o superior)
 
-o de la siguiente manera:
-- feature/authentication-register
-- feature/routeManagment-homeScreen
-- feature/delivery
-- feature/deliveryHistory
-- feature/pushNotifications
+- Expo CLI (npm install -g expo-cli)
+
+- Yarn (opcional, recomendado)
+
+## 📦 Instalación Rápida
+
+### 1. Clonar repositorio
+
+```bash
+git clone https://github.com/Cabitta/DeRemate-ReactNative.git
+cd DeRemate-ReactNative
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Iniciar (elige una opción)
+
+```bash
+npm run start       # Modo interactivo
+npm run ios         # Solo iOS
+npm run android     # Solo Android
+npm run web         # Solo Web
+```
+
+Esto abrirá la interfaz de Expo Dev Tools en tu navegador. Puedes:
+
+- Escanear el código QR con la app Expo Go (desde tu dispositivo móvil).
+
+- Ejecutar en un emulador Android/iOS.
+
+## 🔍 Estructura de Archivos
+
+```
+src/
+├── components/   # Componentes reusables
+├── context/      # Componentes de contexto
+├── hooks/        # Custom hooks
+├── images/       # Imágenes
+├── navigation/   # Config rutas
+├── screens/      # Pantallas
+├── services/     # API/backend
+├── theme/        # Stylesheets
+└── utils/        # Funciones helpers
+```
+
+## 📚 Dependencias Principales
+
+- Expo SDK: Para acceso a APIs nativas.
+
+- React Navigation: Manejo de navegación.
+
+- Axios: Peticiones HTTP.
+
+- React Native Paper: Diseño de componentes.
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT.
