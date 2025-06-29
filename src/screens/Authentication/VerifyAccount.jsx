@@ -11,11 +11,11 @@ import {
 import React, { useState } from "react";
 import image from "../../images/Logo.png";
 import { useNavigation } from "@react-navigation/native";
-import { useAxios } from "../../hooks/useAxios";
+import { useAuthAxios } from "../../hooks/useAuthAxios";
 
 const VerifyAccount = ({ route }) => {
   const navigation = useNavigation();
-  const axios = useAxios();
+  const axios = useAuthAxios();
   const email = route.params?.email;
 
   const [code, setCode] = useState("");

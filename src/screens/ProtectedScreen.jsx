@@ -10,10 +10,6 @@ const ProtectedScreen = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Login" }],
-      });
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
