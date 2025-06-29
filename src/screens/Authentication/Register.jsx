@@ -85,17 +85,7 @@ const RegisterScreen = () => {
         throw new Error(response.data.error);
       }
 
-      Alert.alert(
-        "Registro Exitoso",
-        "Se ha enviado un código de verificación a su email",
-        [
-          {
-            text: "OK",
-            onPress: () =>
-              navigation.navigate("VerifyAccount", { email: formData.email }),
-          },
-        ]
-      );
+      navigation.navigate("VerifyAccount", { email: formData.email });
     } catch (error) {
       console.error("Error completo:", error);
       console.error("Tipo de error:", error.name);
