@@ -2,8 +2,7 @@ import { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { Appbar } from "react-native-paper";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Appbar, Icon } from "react-native-paper";
 import { COLORS } from "../theme/appTheme";
 import { AuthContext } from "../context/AuthContext";
 
@@ -25,10 +24,19 @@ import DeliveryDetailsScreen from "../screens/History/DeliveryDetailsScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const headerLeft = ({ navigation }) => ({
+  headerLeft: () => (
+    <Appbar.BackAction
+      onPress={() => navigation.goBack()}
+      color={COLORS.primaryButton}
+    />
+  ),
+})
+
 // Stack para usuarios no autenticados
 function AuthStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true }}>
+    <Stack.Navigator screenOptions={{ headerShown: true, headerTitleAlign: "center" }}>
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
@@ -44,94 +52,58 @@ function AuthStack() {
 // Tabs para la navegación dentro del área protegida
 function AppTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ tabBarShowLabel: false, headerTitleAlign: "center", tabBarStyle: { backgroundColor: COLORS.blanco } }}>
       <Tab.Screen
         name="ProtectedScreen"
         component={ProtectedScreen}
         options={{
           title: "Inicio",
-          headerTitleAlign: "center",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+          tabBarIcon: () => (
+            <Icon source="home" color={COLORS.gris} size={30}/>
           ),
         }}
         />
       <Tab.Screen
         name="DeliveryHistoryStack"
         component={DeliveryHistoryStack}
-        options={({ navigation }) => ({
+        options={{
           title: "Historial de Entregas",
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="history" color={color} size={size} />
+          tabBarIcon: () => (
+            <Icon source="history" color={COLORS.gris} size={30}/>
           ),
-        })}
+        }}
         />
       <Tab.Screen
         name="AvailableRoutesScreen"
         component={AvailableRoutesScreen}
-        options={({ navigation }) => ({
+        options={{
           title: "Rutas Disponibles",
-          headerTitleAlign: "center",
-          headerLeft: () => (
-            <Appbar.BackAction
-            onPress={() => {
-              if (navigation.canGoBack()) {
-                navigation.goBack();
-              }
-            }}
-            color={COLORS.primaryButton}
-            />
+          tabBarIcon: () => (
+            <Icon source="map-marker" color={COLORS.gris} size={30}/>
           ),
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-            name="map-marker-path"
-            color={color}
-            size={size}
-            />
-          ),
-        })}
+        }}
         />
     </Tab.Navigator>
   );
 }
 
 const DeliveryHistoryStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={{ headerShown: true, headerTitleAlign: "center" }}>
     <Stack.Screen
       name="DeliveryHistoryScreen"
       component={DeliveryHistoryScreen}
-      options={({ navigation }) => ({
+      options={{
         title: "Historial de Entregas",
-        headerTitleAlign: "center",
-        headerLeft: () => (
-          <Appbar.BackAction
-          onPress={() => {
-            if (navigation.canGoBack()) {
-              navigation.goBack();
-            }
-          }}
-            color={COLORS.primaryButton}
-            />
-        ),
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="history" color={color} size={size} />
-        ),
-      })}
+      }}
     />
     <Stack.Screen
       name="DeliveryDetailsScreen"
       component={DeliveryDetailsScreen}
-      options={({ navigation }) => ({
-        title: "Detalles de la Entrega",
-        headerTitleAlign: "center",
-        headerLeft: () => (
-          <Appbar.BackAction
-            onPress={() => navigation.goBack()}
-            color={COLORS.primaryButton}
-          />
-        ),
-      })}
+      options={ ({ navigation }) => ({
+        title: "Detalles de Entrega",
+        ...headerLeft({ navigation }),
+      }) }
     />
   </Stack.Navigator>
 );

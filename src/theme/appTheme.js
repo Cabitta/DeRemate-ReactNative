@@ -7,6 +7,9 @@ export const COLORS = {
   titleText: '#FFFFFF',   
   subtitleText: '#000000',
   cardBackground: '#3B2F2F',
+  rojo: "#8b0000",
+  gris: "#808080",
+  blanco: "#ffffff",
 };
 
 export const COMMON_STYLES = StyleSheet.create({
