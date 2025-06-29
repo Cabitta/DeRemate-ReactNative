@@ -36,7 +36,7 @@ const LoginScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <Image source={image} style={[styles.image, { resizeMode: "contain" }]} />
+      <Image source={image} style={ styles.image } resizeMode="contain" />
       <Text style={styles.title}>Inicio de Sesion</Text>
       <StatusBar style="auto" />
       <InputText

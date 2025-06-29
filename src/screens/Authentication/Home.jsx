@@ -1,14 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
 import image from "../../images/Logo.png";
 import CustomButton from "../../components/CustomButton";
 
@@ -16,7 +8,7 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Image source={image} style={[styles.image, { resizeMode: "contain" }]} />
+      <Image source={image} style={ styles.image } resizeMode="contain" />
       <Text style={styles.title}>
         El sabor que queres, en el momento que lo necesitas
       </Text>

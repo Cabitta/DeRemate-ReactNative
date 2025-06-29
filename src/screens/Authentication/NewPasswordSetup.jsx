@@ -31,7 +31,8 @@ const NewPasswordSetupScreen =()=>{
         <View style={styles.container}>
               <Image
                 source={image}
-                style={[styles.image, { resizeMode: 'contain' }]}
+                style={styles.image}
+                resizeMode='contain'
               />
               <Text style={styles.title}>Reestablecimiento de Contraseña</Text>
               <StatusBar style="auto"/>

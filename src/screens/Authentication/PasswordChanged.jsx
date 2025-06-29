@@ -13,7 +13,8 @@ const PasswordChangedScreen =()=>{
         <View style={styles.container}>
               <Image
                 source={image}
-                style={[styles.image, { resizeMode: 'contain' }]}
+                style={styles.image}
+                resizeMode='contain'
               />
               <Text style={styles.title}>La contraseña ha sido modificada con exito</Text>
               <StatusBar style="auto"/>
