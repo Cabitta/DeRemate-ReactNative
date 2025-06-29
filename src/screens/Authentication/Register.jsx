@@ -107,7 +107,7 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={image} style={[styles.image, { resizeMode: "contain" }]} />
+      <Image source={image} style={styles.image} resizeMode="contain" />
       <Text style={styles.title}>Registro</Text>
       <StatusBar style="auto" />
 

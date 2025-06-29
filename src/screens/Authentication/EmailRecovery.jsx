@@ -30,7 +30,8 @@ const EmailRecoveryScreen =()=>{
         <View style={styles.container}>
               <Image
                 source={image}
-                style={[styles.image, { resizeMode: 'contain' }]}
+                style={styles.image}
+                resizeMode="contain"
               />
               <Text style={styles.title}>Recuperacion de Contraseña</Text>
               <StatusBar style="auto"/>
