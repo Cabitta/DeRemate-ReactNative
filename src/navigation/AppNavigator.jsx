@@ -57,7 +57,7 @@ function AppTabs() {
         }}
         />
       <Tab.Screen
-        name="DeliveryHistoryScreen"
+        name="DeliveryHistoryStack"
         component={DeliveryHistoryStack}
         options={({ navigation }) => ({
           title: "Historial de Entregas",
