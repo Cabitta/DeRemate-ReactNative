@@ -30,7 +30,6 @@ const AvailableRoutesScreen = () => {
     }
 
     const handleRefresh = async () => {
-        console.log("handleRefresh call")
         setRefreshing(true)
         await fetchData()
         setRefreshing(false)
