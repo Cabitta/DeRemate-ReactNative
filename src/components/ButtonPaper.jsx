@@ -1,10 +1,10 @@
 import { Button } from "react-native-paper"
-import { COMMON_STYLES } from "../theme/appTheme"
+import { COLORS, COMMON_STYLES } from "../theme/appTheme"
 import PropTypes from 'prop-types'
 
-const ButtonPaper = ({title, onPress}) => {
+const ButtonPaper = ({title, onPress, buttonColor=COLORS.rojo, style = COMMON_STYLES.logoutButton, labelStyle = COMMON_STYLES.logoutText }) => {
   return (
-    <Button onPress={onPress} mode='contained' style= {COMMON_STYLES.button} labelStyle={COMMON_STYLES.buttonText}>
+    <Button onPress={onPress} mode='contained' style={style} labelStyle={labelStyle} buttonColor={buttonColor} >
         {title}
     </Button>
   )
