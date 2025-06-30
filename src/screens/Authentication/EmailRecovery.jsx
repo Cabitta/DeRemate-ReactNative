@@ -1,14 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, Image, Button, TouchableOpacity, SafeAreaView} from 'react-native';
-import React, {useState} from "react";
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { useState } from "react";
 import image from '../../images/Logo.png'
 import { useNavigation } from '@react-navigation/native';
-import { TextInput } from 'react-native-web';
 import { EmailRecoveryService } from '../../services/EmailRecoveryService';
 import { Alert} from 'react-native';
 import InputText from '../../components/InputText';
-import CustomButton from '../../components/CustomButton';
-//import {TextInput} from 'react-native-web';
+import ButtonPaper from '../../components/ButtonPaper';
 
 const EmailRecoveryScreen =()=>{
   const navigation = useNavigation()
@@ -36,7 +34,7 @@ const EmailRecoveryScreen =()=>{
               <Text style={styles.title}>Recuperacion de Contraseña</Text>
               <StatusBar style="auto"/>
               <InputText placeholder="Ingrese el correo electronico" value={email} onChangeText={setEmail}/>
-              <CustomButton title="Enviar Correo Electronico" onPress={handleEmailRecovery} />
+              <ButtonPaper title={"Enviar Correo Electronico"} onPress={handleEmailRecovery}/>
             </View>
     );
 }

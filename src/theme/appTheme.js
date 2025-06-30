@@ -13,7 +13,35 @@ export const COLORS = {
 };
 
 export const COMMON_STYLES = StyleSheet.create({
+  logoutButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 30,
+    marginTop: 20,
+    width: 250,
+    alignItems: "center",
+  },
+  logoutText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "500",
+  },
   button: {
+    padding: 10,
+    marginTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 30,
+    width: 250,
+  },
+  buttonText: {
+    fontSize: 15,
+    color: "#ffffff",
+    width: 200,
+    height: 25,
+    textAlign: "center",
+  },
+  SecondaryButton: {
     backgroundColor: COLORS.primaryButton,
     padding: 10,
     marginTop: 20,
@@ -21,11 +49,11 @@ export const COMMON_STYLES = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 30
   },
-  buttonText: {
+  SecondaryButtonText: {
     fontSize: 15,
     color: COLORS.buttonText,
     width: 120,
     height: 25,
     textAlign: "center"
-  }
+  },
 });

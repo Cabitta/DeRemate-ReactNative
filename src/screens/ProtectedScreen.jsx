@@ -1,7 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import ButtonPaper from "../components/ButtonPaper";
+import { Text } from "react-native-paper";
+import { openGoogleMaps } from "../utils/helpers";
 
 const ProtectedScreen = () => {
   const { user, logout } = useContext(AuthContext);
@@ -17,20 +20,15 @@ const ProtectedScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Área Protegida</Text>
-
       {user && (
         <View style={styles.userInfo}>
           <Text style={styles.welcomeText}>
             ¡Bienvenido, {user.firstname} {user.lastname}!
           </Text>
-          <Text style={styles.emailText}>Email: {user.email}</Text>
         </View>
       )}
-
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutText}>Cerrar Sesión</Text>
-      </TouchableOpacity>
+      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps("UADE")} />
+      <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
     </View>
   );
 };
