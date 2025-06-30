@@ -8,6 +8,7 @@ import { useDeliveryHistoryService } from "../../services/DeliveryHistoryService
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../../components/Loading";
 import { useNavigation } from "@react-navigation/native";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const DeliveryHistoryScreen = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -46,6 +47,11 @@ const DeliveryHistoryScreen = () => {
     setRefreshing(false);
   };
 
+  const handleRetry = () => {
+      setLoading(true)
+      loadDeliveries();
+  } 
+
   if (!user) {
     return (
       <View style={styles.container}>
@@ -70,11 +76,9 @@ const DeliveryHistoryScreen = () => {
         {loading ? (
           Loading()
         ) : error ? (
-          <Text style={styles.errorText}>
-            Error al cargar las entregas. Por favor, intente nuevamente.
-          </Text>
+          <ErrorMessage message="Ocurrió un error al cargar las rutas entregadas. Intentalo nuevamente más tarde." onPress={handleRetry} />
         ) : deliveries.length === 0 ? (
-          <Text style={styles.emptyText}>No hay entregas disponibles.</Text>
+          <ErrorMessage message="No tenés rutas entregadas." onPress={handleRetry} />
         ) : (
           deliveries.map((delivery) => (
             <TouchableOpacity
