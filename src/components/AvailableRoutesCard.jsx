@@ -3,6 +3,7 @@ import { Card, Divider, Text } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { COLORS } from "../theme/appTheme";
 import DialogPaperComponent from "./DialogPaperComponent";
+import { openGoogleMaps } from "../utils/helpers";
 
 const AvailableRoutesCard = ({ availableRoute }) => {
   const [visible, setVisible] = useState(false);
@@ -10,8 +11,8 @@ const AvailableRoutesCard = ({ availableRoute }) => {
   const hideDialog = () => setVisible(false);
 
   const onAccept = () => {
-    // cambio de estado de la ruta
     hideDialog();
+    openGoogleMaps(availableRoute.address);
   };
 
   return (
@@ -48,18 +49,12 @@ const AvailableRoutesCard = ({ availableRoute }) => {
         visible={visible}
         onCancel={hideDialog}
         onAccept={onAccept}
-        title={`Confirmar ruta: ${availableRoute.address}`}
+        title={`Ver Ruta: ${availableRoute.address}`}
+        textOnAccept="Ver en Google Maps"
       >
         <Text variant="bodyMedium" style={{ marginBottom: 8 }}>
-          ⚠️ Advertencia importante:
-        </Text>
-        <Text variant="bodyMedium" style={{ marginBottom: 12 }}>
-          Estás a punto de aceptar esta ruta de entrega. Esta acción es
-          irreversible.
-        </Text>
-        <Text variant="bodyMedium">
-          • No podrás cambiar o cancelar una vez aceptada{"\n"}• Asegúrate de
-          verificar todos los detalles{"\n"}
+          Has seleccionado la ruta a {availableRoute.address}. ¿Quieres ver el
+          recorrido en Google Maps?
         </Text>
       </DialogPaperComponent>
     </>

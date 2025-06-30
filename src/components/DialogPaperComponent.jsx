@@ -6,6 +6,8 @@ const DialogPaperComponent = ({
   onAccept,
   title,
   children,
+  textOnAccept = "Aceptar",
+  textOnCancel = "Cancelar",
 }) => {
   return (
     <Portal>
@@ -15,8 +17,8 @@ const DialogPaperComponent = ({
           {children || <Text>No content provided</Text>}
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={onCancel}> Cancelar</Button>
-          <Button onPress={onAccept}>Aceptar</Button>
+          <Button onPress={onCancel}> {textOnCancel} </Button>
+          <Button onPress={onAccept}>{textOnAccept}</Button>
         </Dialog.Actions>
       </Dialog>
     </Portal>
