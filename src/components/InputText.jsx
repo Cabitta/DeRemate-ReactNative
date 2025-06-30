@@ -1,6 +1,11 @@
-import { TextInput, StyleSheet } from 'react-native';
+import { TextInput, StyleSheet } from "react-native";
 
-const InputText = ({ placeholder, value, onChangeText, secureTextEntry = false }) => {
+const InputText = ({
+  placeholder,
+  value,
+  onChangeText,
+  secureTextEntry = false,
+}) => {
   return (
     <TextInput
       style={styles.input}
