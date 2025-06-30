@@ -44,7 +44,7 @@ export const useAuthAxios = () => {
           if (refreshToken) {
             try {
               const response = await axios.post(
-                "http://192.168.0.228:3000/api/auth/refresh",
+                "http://10.0.2.2:3000/api/auth/refresh",
                 { refreshToken }
               );
 

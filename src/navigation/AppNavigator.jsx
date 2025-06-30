@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Appbar, Icon } from "react-native-paper";
 import { COLORS } from "../theme/appTheme";
 import { AuthContext } from "../context/AuthContext";
+import NotificationHandler from "../components/NotificationHandler";
 
 // Screens - Authentication
 import HomeScreen from "../screens/Authentication/Home";
@@ -130,6 +131,7 @@ function AppNavigator() {
 
   return (
     <NavigationContainer>
+      <NotificationHandler />
       {isAuthenticated ? <AppTabs /> : <AuthStack />}
     </NavigationContainer>
   );
