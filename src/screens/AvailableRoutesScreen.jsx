@@ -52,7 +52,7 @@ const AvailableRoutesScreen = () => {
     }
 
     if (error) {
-        return <ErrorMessage message="Ocurrió un error al cargar las rutas. Intentalo nuevamente más tarde." onPress={handleRetry} />
+        return <ErrorMessage message="Ocurrió un error al cargar las rutas disponibles. Intentalo nuevamente más tarde." onPress={handleRetry} />
     }
 
     if (availableRoutes.length === 0 && !error) {

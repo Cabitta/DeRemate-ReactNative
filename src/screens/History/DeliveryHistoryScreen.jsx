@@ -20,18 +20,17 @@ const DeliveryHistoryScreen = () => {
   const navigation = useNavigation();
 
   const loadDeliveries = useCallback(async () => {
-    if (!user?.id) return;
+    //if (!user?.id) return;
     try {
       setLoading(true);
-      setError(null);
-
+      setError(false);
       const data = await fetchDeliveries(user?.id);
-
       setDeliveries(data);
+
     } catch (err) {
       console.error("Failed to load deliveries in component", err);
-      setError(err);
-      setDeliveries([]);
+      setError(true);
+
     } finally {
       setLoading(false);
     }
@@ -48,8 +47,8 @@ const DeliveryHistoryScreen = () => {
   };
 
   const handleRetry = () => {
-      setLoading(true)
-      loadDeliveries();
+    setLoading(true)
+    loadDeliveries();
   } 
 
   if (!user) {
@@ -77,7 +76,7 @@ const DeliveryHistoryScreen = () => {
           Loading()
         ) : error ? (
           <ErrorMessage message="Ocurrió un error al cargar las rutas entregadas. Intentalo nuevamente más tarde." onPress={handleRetry} />
-        ) : deliveries.length === 0 ? (
+        ) : deliveries.length === 0 && !error ? (
           <ErrorMessage message="No tenés rutas entregadas." onPress={handleRetry} />
         ) : (
           deliveries.map((delivery) => (
