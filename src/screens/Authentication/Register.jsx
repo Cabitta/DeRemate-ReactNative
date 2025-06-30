@@ -11,12 +11,12 @@ import React, { useState, useContext } from "react";
 import image from "../../images/Logo.png";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native";
-import { useAxios } from "../../hooks/useAxios";
+import { RegisterService } from "../../services/RegisterService"; // ← Nuevo import
 import { AuthContext } from "../../context/AuthContext";
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
-  const axios = useAxios();
+  const fetchRegister = RegisterService(); // ← Usar el servicio
   const { login } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
@@ -64,50 +64,19 @@ const RegisterScreen = () => {
     if (!validateForm()) return;
 
     try {
-      console.log("Enviando datos de registro:", formData);
+      await fetchRegister(formData); // ← Usar el servicio
 
-      console.log("Entra al register");
-      const response = await axios.post("/register", formData);
-
-      console.log("Respuesta completa del servidor:", {
-        status: response?.status,
-        statusText: response?.statusText,
-        headers: response?.headers,
-        data: response?.data,
-      });
-
-      if (!response?.data) {
-        throw new Error("No se recibieron datos del servidor");
-      }
-
-      // Si hay un error en la respuesta, lanzarlo
-      if (response.data.error) {
-        throw new Error(response.data.error);
-      }
-
-      Alert.alert(
-        "Registro Exitoso",
-        "Se ha enviado un código de verificación a su email",
-        [
-          {
-            text: "OK",
-            onPress: () =>
-              navigation.navigate("VerifyAccount", { email: formData.email }),
-          },
-        ]
-      );
+      // Si llegamos aquí, el registro fue exitoso
+      navigation.navigate("VerifyAccount", { email: formData.email });
     } catch (error) {
-      console.error("Error completo:", error);
-      console.error("Tipo de error:", error.name);
-      console.error("Mensaje de error:", error.message);
-
-      Alert.alert("Error en el registro", error.message, [{ text: "OK" }]);
+      // El error ya fue manejado en el servicio con Alert.alert
+      // Solo necesitamos capturar la excepción
     }
   };
 
   return (
     <View style={styles.container}>
-      <Image source={image} style={[styles.image, { resizeMode: "contain" }]} />
+      <Image source={image} style={styles.image} resizeMode="contain" />
       <Text style={styles.title}>Registro</Text>
       <StatusBar style="auto" />
 

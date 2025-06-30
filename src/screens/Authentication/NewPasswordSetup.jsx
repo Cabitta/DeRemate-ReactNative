@@ -16,25 +16,23 @@ const NewPasswordSetupScreen =()=>{
     const [newpassword, setNewpassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const handleNewPasswordSetup = async () => {
-      console.log("Entra a modificar contraseña");
       if (!code || !newpassword || !confirmPassword) {
         Alert.alert('Campos requeridos', 'Por favor complete ambos campos.');
         return;
       }
       try {
-        console.log("Intentando modificar contraseña")
         const data = await fetchNewPasswordSetup(code, newpassword, confirmPassword);
-        console.log('Contraseña modificada exitosamente:', data);
         navigation.navigate('PasswordChanged');
       } catch (error) {
-        console.log("Error en modificacion de contraseña")
+        Alert.alert('Error de modificacion de contraseña', 'Token o contraseña no aceptada.');
       }
   }
     return (
         <View style={styles.container}>
               <Image
                 source={image}
-                style={[styles.image, { resizeMode: 'contain' }]}
+                style={styles.image}
+                resizeMode='contain'
               />
               <Text style={styles.title}>Reestablecimiento de Contraseña</Text>
               <StatusBar style="auto"/>

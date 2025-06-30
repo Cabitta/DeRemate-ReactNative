@@ -73,8 +73,8 @@ const AvailableRoutesScreen = () => {
                           />
                         }
             >
-                {availableRoutes.map((route) => (
-                        <AvailableRoutesCard availableRoute={route} />
+                {availableRoutes.map((route, idx) => (
+                        <AvailableRoutesCard key={idx} availableRoute={route} />
                     ))
                 }
             </ScrollView>

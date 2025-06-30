@@ -11,11 +11,11 @@ import {
 import React, { useState } from "react";
 import image from "../../images/Logo.png";
 import { useNavigation } from "@react-navigation/native";
-import { useAxios } from "../../hooks/useAxios";
+import { useAuthAxios } from "../../hooks/useAuthAxios";
 
 const VerifyAccount = ({ route }) => {
   const navigation = useNavigation();
-  const axios = useAxios();
+  const axios = useAuthAxios();
   const email = route.params?.email;
 
   const [code, setCode] = useState("");
@@ -77,7 +77,7 @@ const VerifyAccount = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={image} style={[styles.image, { resizeMode: "contain" }]} />
+      <Image source={image} style={styles.image} resizeMode="contain" />
       <Text style={styles.title}>Verificar Cuenta</Text>
       <StatusBar style="auto" />
 
