@@ -27,5 +27,18 @@ export const COMMON_STYLES = StyleSheet.create({
     width: 120,
     height: 25,
     textAlign: "center"
-  }
+  },
+  logoutButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 30,
+    marginTop: 20,
+    width: 250,
+    alignItems: "center",
+  },
+  logoutText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "500",
+  },
 });

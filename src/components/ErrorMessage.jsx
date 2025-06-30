@@ -12,7 +12,7 @@ const ErrorMessage = ({message = "Ocurrio un error. Intentelo de nuevo más tard
           <Text variant="titleLarge" style={{ color: COLORS.primaryButton, textAlign: 'center'}}>
               {message}
           </Text>
-      <ButtonPaper title={"Reintentar"} onPress={onPress}/>       
+      <ButtonPaper title={"Reintentar"} onPress={onPress} buttonColor={COLORS.primaryButton} />       
       </View>
     </GlobalBackground>
   )
