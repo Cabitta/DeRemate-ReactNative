@@ -6,7 +6,7 @@ export default function App() {
   return (
     <AuthProvider>
       <PaperProvider>
-        <AppNavigator/>
+          <AppNavigator />
       </PaperProvider>
     </AuthProvider>
   )
