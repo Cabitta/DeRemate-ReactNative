@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform, Linking } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import ButtonPaper from "../components/ButtonPaper";
+import { Text } from "react-native-paper";
 
 const ProtectedScreen = () => {
   const { user, logout } = useContext(AuthContext);
@@ -16,19 +17,47 @@ const ProtectedScreen = () => {
     }
   };
 
+   const openGoogleMaps = () => {
+    const location = "UADE";
+    const browserUrl = `https://www.google.com/maps/search/?api=1&query=${location}`;
+    const url = Platform.select({
+      ios: `maps:0,0?q=${location}`,
+      android: `geo:0,0?q=${location}`
+    });
+    
+    if (Platform.OS === 'web') {
+      window.open(browserUrl, '_blank');
+      return;
+    }
+
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (supported) {
+          return Linking.openURL(url);
+        } else {
+          return Linking.openURL(browserUrl);
+        }
+      })
+      .catch(err => console.error('Error al abrir Google Maps:', err));
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Área Protegida</Text>
-
       {user && (
         <View style={styles.userInfo}>
           <Text style={styles.welcomeText}>
             ¡Bienvenido, {user.firstname} {user.lastname}!
           </Text>
-          <Text style={styles.emailText}>Email: {user.email}</Text>
         </View>
       )}
-      <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout}/>
+      <ButtonPaper
+        title={"Mi ruta"}
+        onPress={openGoogleMaps}
+      />
+      <ButtonPaper
+        title={"Cerrar Sesión"}
+        onPress={handleLogout}
+      />
     </View>
   );
 };
