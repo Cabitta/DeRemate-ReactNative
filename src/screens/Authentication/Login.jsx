@@ -42,13 +42,9 @@ const LoginScreen = () => {
       const { token, refreshToken, expirationDate, user } = response;
       const tokens = { token, refreshToken, expirationDate };
       await login(tokens, user);
-      navigation.navigate("ProtectedScreen");
+      navigation.navigate("MainApp", { screen: "Dashboard" });
     } catch (error) {
       console.log("Error buscado", error.message);
-      Alert.alert(
-        "Error de autenticación",
-        "Usuario o contraseña incorrectos."
-      );
     }
   };
   return (

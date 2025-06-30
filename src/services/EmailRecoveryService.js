@@ -15,14 +15,18 @@ export const EmailRecoveryService = () => {
             return response.data
         }
         catch(error){
-            if (error.response) {
-                // El servidor respondió con un código de estado diferente de 2xx
-                Alert.alert("El email no esta registrado como usuario")
-            } else if (error.request) {
-                // La solicitud fue hecha pero no hubo respuesta del servidor
-                Alert.alert("No se pudo conectar al servidor. Vuelva a intentarlo mas tarde")
-            } else {
-                Alert.alert("Error inesperado")
+            if (error.response?.status === 400) {
+                window.alert("No existe una cuenta asociada con ese email");
+                //Alert.alert("No existe una cuenta asociada con ese email");
+            } 
+            else if (error.response?.status === 500) {
+                window.alert("No hubo respuesta del servidor. Vuelva a intentarlo mas tarde");
+                //Alert.alert("No hubo respuesta del servidor. Vuelva a intentarlo mas tarde");
+            } 
+            else {
+                // Otro tipo de error
+                window.alert("Error inesperado")
+                //Alert.alert("Error inesperado")
             }
             throw error;
         }

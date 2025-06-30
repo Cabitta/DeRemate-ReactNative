@@ -28,7 +28,6 @@ const NewPasswordSetupScreen =()=>{
         navigation.navigate('PasswordChanged');
       } catch (error) {
         console.log("Error en modificacion de contraseña")
-        Alert.alert('Error de modificacion de contraseña', 'Token o contraseña no aceptada.');
       }
   }
     return (

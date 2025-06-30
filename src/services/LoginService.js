@@ -15,15 +15,18 @@ export const LoginService = () => {
             return response.data
         }
         catch(error){
-            if (error.response) {
-                // El servidor respondió con un código de estado diferente de 2xx
-                Alert.alert("El email y/o contraseña son incorrectos");
-            } else if (error.request) {
-                // La solicitud fue hecha pero no hubo respuesta del servidor
-                Alert.alert("No hubo respuesta del servidor. Vuelva a intentarlo mas tarde");
-            } else {
+            if (error.response?.status === 401) {
+                window.alert("El email y/o contraseña son incorrectos");
+                //Alert.alert("El email y/o contraseña son incorrectos");
+            } 
+            else if (error.response?.status === 500) {
+                window.alert("No hubo respuesta del servidor. Vuelva a intentarlo mas tarde");
+                //Alert.alert("No hubo respuesta del servidor. Vuelva a intentarlo mas tarde");
+            } 
+            else {
                 // Otro tipo de error
-                Alert.alert("Error inesperado")
+                window.alert("Error inesperado")
+                //Alert.alert("Error inesperado")
             }
             throw error;
         }

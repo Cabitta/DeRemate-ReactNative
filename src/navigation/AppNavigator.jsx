@@ -46,6 +46,7 @@ function AuthStack() {
 
 const DeliveryHistoryStack = () => (
   <Stack.Navigator>
+    <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
     <Stack.Screen
       name="Historial de Entregas"
       component={DeliveryHistoryScreen}

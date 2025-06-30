@@ -28,7 +28,6 @@ const EmailRecoveryScreen =()=>{
       navigation.navigate('NewPasswordSetup');
     }catch (error) {
       console.log("Error en recuperacion de contraseña")
-      Alert.alert('Error de recuperacion de contraseña', 'No existe usuario con ese email');
     }
   }
     return (
