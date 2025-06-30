@@ -1,13 +1,16 @@
-import { Card, Text } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
-import { COLORS } from '../theme/appTheme';
+import { Card, Text } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { COLORS } from "../theme/appTheme";
 
 const DeliveryHistoryCard = ({ delivery }) => {
-  const delivery_date = new Date(delivery.end_date_time).toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
+  const delivery_date = new Date(delivery.end_date_time).toLocaleDateString(
+    "es-ES",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }
+  );
 
   return (
     <Card style={styles.card}>
@@ -17,7 +20,9 @@ const DeliveryHistoryCard = ({ delivery }) => {
       />
       <Card.Content>
         <Text style={styles.cardText}>Fecha: {delivery_date}</Text>
-        <Text style={styles.cardText}>Tiempo de Entrega: {delivery.delivery_time}</Text>
+        <Text style={styles.cardText}>
+          Tiempo de Entrega: {delivery.delivery_time}
+        </Text>
       </Card.Content>
     </Card>
   );
@@ -34,15 +39,14 @@ const styles = StyleSheet.create({
     boxShadow: `0 1px 1.41px ${COLORS.titleText}`,
   },
   cardTitle: {
-    color: COLORS.primaryButton, 
-    fontWeight: 'bold',
+    color: COLORS.primaryButton,
+    fontWeight: "bold",
   },
   cardText: {
-    color: COLORS.titleText, 
+    color: COLORS.titleText,
     fontSize: 14,
     marginBottom: 4,
   },
 });
-
 
 export default DeliveryHistoryCard;

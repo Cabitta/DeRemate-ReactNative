@@ -17,28 +17,28 @@ const ProtectedScreen = () => {
     }
   };
 
-   const openGoogleMaps = () => {
+  const openGoogleMaps = () => {
     const location = "UADE";
     const browserUrl = `https://www.google.com/maps/search/?api=1&query=${location}`;
     const url = Platform.select({
       ios: `maps:0,0?q=${location}`,
-      android: `geo:0,0?q=${location}`
+      android: `geo:0,0?q=${location}`,
     });
-    
-    if (Platform.OS === 'web') {
-      window.open(browserUrl, '_blank');
+
+    if (Platform.OS === "web") {
+      window.open(browserUrl, "_blank");
       return;
     }
 
     Linking.canOpenURL(url)
-      .then(supported => {
+      .then((supported) => {
         if (supported) {
           return Linking.openURL(url);
         } else {
           return Linking.openURL(browserUrl);
         }
       })
-      .catch(err => console.error('Error al abrir Google Maps:', err));
+      .catch((err) => console.error("Error al abrir Google Maps:", err));
   };
 
   return (
@@ -50,14 +50,8 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
-      <ButtonPaper
-        title={"Mi ruta"}
-        onPress={openGoogleMaps}
-      />
-      <ButtonPaper
-        title={"Cerrar Sesión"}
-        onPress={handleLogout}
-      />
+      <ButtonPaper title={"Mi ruta"} onPress={openGoogleMaps} />
+      <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
     </View>
   );
 };
