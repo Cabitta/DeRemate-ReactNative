@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
   Alert,
   TextInput,
 } from "react-native";
@@ -94,17 +93,8 @@ const VerifyAccount = ({ route }) => {
         maxLength={5}
         autoCapitalize="none"
       />
-
-      <TouchableOpacity style={styles.button} onPress={handleVerify}>
-        <Text style={styles.buttonText}>Verificar Cuenta</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text style={styles.buttonText}>Volver al Login</Text>
-      </TouchableOpacity>
+      <ButtonPaper title={"Verificar Cuenta"} onPress={handleVerify}/>
+      <ButtonPaper title={"Volver al Login"} onPress={() => navigation.navigate("Login")}/>
     </View>
   );
 };

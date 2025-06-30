@@ -1,25 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, Image, Button, TouchableOpacity, SafeAreaView} from 'react-native';
-import React from "react";
+import { StyleSheet, Text, View, Image } from 'react-native';
 import image from '../../images/Logo.png'
 import { useNavigation } from '@react-navigation/native';
-import { TextInput } from 'react-native-web';
-//import {TextInput} from 'react-native-web';
-import CustomButton from '../../components/CustomButton';
+import ButtonPaper from '../../components/ButtonPaper';
 
 const PasswordChangedScreen =()=>{
   const navigation = useNavigation()
     return (
         <View style={styles.container}>
-              <Image
-                source={image}
-                style={styles.image}
-                resizeMode='contain'
-              />
-              <Text style={styles.title}>La contraseña ha sido modificada con exito</Text>
-              <StatusBar style="auto"/>
-              <CustomButton title="Ir a Inicio de Sesion" onPress={()=> navigation.navigate('Login')}/>
-            </View>
+          <Image source={image} style={styles.image} resizeMode='contain' />
+          <Text style={styles.title}>La contraseña ha sido modificada con exito</Text>
+          <StatusBar style="auto"/>
+          <ButtonPaper title={"Ir a Inicio de Sesion"} onPress={()=> navigation.navigate('Login')} />
+        </View>
     );
 }
 const styles = StyleSheet.create({

@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import ButtonPaper from "../components/ButtonPaper";
 
 const ProtectedScreen = () => {
   const { user, logout } = useContext(AuthContext);
@@ -27,10 +28,7 @@ const ProtectedScreen = () => {
           <Text style={styles.emailText}>Email: {user.email}</Text>
         </View>
       )}
-
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutText}>Cerrar Sesión</Text>
-      </TouchableOpacity>
+      <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout}/>
     </View>
   );
 };

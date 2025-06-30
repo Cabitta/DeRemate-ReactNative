@@ -4,15 +4,15 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import image from "../../images/Logo.png";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native";
 import { RegisterService } from "../../services/RegisterService"; // ← Nuevo import
 import { AuthContext } from "../../context/AuthContext";
+import ButtonPaper from "../../components/ButtonPaper";
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
@@ -118,17 +118,8 @@ const RegisterScreen = () => {
         onChangeText={(value) => handleChange("confirmPassword", value)}
         secureTextEntry
       />
-
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Registrarse</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text style={styles.buttonText}>Volver al Login</Text>
-      </TouchableOpacity>
+      <ButtonPaper title={"Registrarse"} onPress={handleRegister}/>
+      <ButtonPaper title={"Volver al Login"} onPress={() => navigation.navigate("Login")}/>
     </View>
   );
 };
