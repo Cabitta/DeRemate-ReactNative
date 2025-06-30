@@ -4,9 +4,9 @@ import { useCallback } from 'react';
 export const AvailableRoutesService = () => {
     const axiosInstance = useAuthAxios()
 
-    const fetchAvailableRoutes = useCallback( async (deliveryId) => {
+    const fetchAvailableRoutes = useCallback( async () => {
             try{
-                const response = await axiosInstance.get(`/available-routes?deliveryId=${deliveryId}`)
+                const response = await axiosInstance.get(`/available-routes`)
                 return response.data
             }
             catch(error){
