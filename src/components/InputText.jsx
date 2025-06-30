@@ -1,4 +1,3 @@
-import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
 
 const InputText = ({ placeholder, value, onChangeText, secureTextEntry = false }) => {
