@@ -7,13 +7,31 @@ import { Text } from "react-native-paper";
 import { openGoogleMaps } from "../utils/helpers";
 import { COLORS } from "../theme/appTheme";
 import { AvailableRoutesService } from "../services/AvailableRoutesService";
+import ErrorMessage from "../components/ErrorMessage";
+import Loading from "../components/Loading";
 
 const ProtectedScreen = () => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [inTransitRoute, setInTransitRoute] = useState(null);
   const [location, setLocation] = useState(null);
   const { user, logout } = useContext(AuthContext);
   const navigation = useNavigation();
   const { fetchInTransitRouteByDeliveyId } = AvailableRoutesService();
+
+  const fetchData = async (deliveryId) => {
+    try {
+      setError(false);
+      const data = await fetchInTransitRouteByDeliveyId(deliveryId);
+      setInTransitRoute(data);
+      setLocation(data?.address);
+    } catch (error) {
+      setError(true);
+      console.error("Error al obtener la ruta en tránsito:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -23,27 +41,32 @@ const ProtectedScreen = () => {
     }
   };
 
-  const fetchInTransitRoute = async (deliveryId) => {
-    try {
-      const data = await fetchInTransitRouteByDeliveyId(deliveryId);
-      setInTransitRoute(data);
-      setLocation(data?.address);
-    } catch (error) {
-      console.error("Error al obtener la ruta en tránsito:", error);
-    }
+  const handleRetry = () => {
+    setLoading(true);
+    fetchData(user.id);
   };
 
   useEffect(() => {
-    const fetchData = () => {
-      fetchInTransitRoute(user.id);
+    const initialFetch = () => {
+      fetchData(user.id);
     };
-    fetchData();
+    initialFetch();
   }, []);
 
-  useEffect(() => {
-    console.log("inTransitRoute actualizado:", inTransitRoute);
-    console.log("location actualizado:", location);
-  }, [inTransitRoute, location]);
+  // Pantallas
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <ErrorMessage
+        message="Ocurrió un error al cargar la pantalla de inicio. Intentalo nuevamente más tarde."
+        onPress={handleRetry}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>
