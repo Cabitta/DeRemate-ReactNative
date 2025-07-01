@@ -17,8 +17,6 @@ const ProtectedScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Área Protegida</Text>
-
       {user && (
         <View style={styles.userInfo}>
           <Text style={styles.welcomeText}>
@@ -27,6 +25,10 @@ const ProtectedScreen = () => {
           <Text style={styles.emailText}>Email: {user.email}</Text>
         </View>
       )}
+      
+      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('qrCodeScreen')}>
+        <Text style={styles.logoutText}>Escanear QR</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutText}>Cerrar Sesión</Text>

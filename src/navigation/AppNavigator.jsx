@@ -20,6 +20,7 @@ import ProtectedScreen from "../screens/ProtectedScreen";
 import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
 import AvailableRoutesScreen from "../screens/AvailableRoutesScreen";
 import DeliveryDetailsScreen from "../screens/History/DeliveryDetailsScreen";
+import QRScannerScreen from "../screens/QrCode/QRScanner"
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -93,6 +94,16 @@ function AppTabs() {
         component={AvailableRoutesScreen}
         options={{
           title: "Rutas Disponibles",
+          tabBarIcon: () => (
+            <Icon source="map-marker" color={COLORS.gris} size={30} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="qrCodeScreen"
+        component={QRScannerScreen}
+        options={{
+          title: "QR Scanner",
           tabBarIcon: () => (
             <Icon source="map-marker" color={COLORS.gris} size={30} />
           ),

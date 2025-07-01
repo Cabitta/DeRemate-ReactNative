@@ -10,13 +10,12 @@ export const EmailRecoveryService = () => {
       try {
         console.log("Entra aca");
         const response = await axiosInstance.post("/forgotpassword", { email });
+        console.log(response.data)
         return response.data;
       } catch (error) {
         if (error.response) {
-          // El servidor respondió con un código de estado diferente de 2xx
           Alert.alert("El email no esta registrado como usuario");
         } else if (error.request) {
-          // La solicitud fue hecha pero no hubo respuesta del servidor
           Alert.alert(
             "No se pudo conectar al servidor. Vuelva a intentarlo mas tarde"
           );
