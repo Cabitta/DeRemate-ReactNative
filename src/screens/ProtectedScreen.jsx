@@ -109,7 +109,11 @@ const ProtectedScreen = () => {
         disabled={!inTransitRoute}
         onPress={
           () =>
-            navigation.navigate("DeliveryValidationScreen", { inTransitRoute }) //TODO: cambiar inTransitRoute por route
+            navigation.navigate("DeliveryValidationScreen", {
+              routeId: inTransitRoute?.id,
+              clientInfo: `${inTransitRoute.client_name} ${inTransitRoute.client_lastname}`,
+              address: inTransitRoute?.address,
+            }) //TODO: cambiar inTransitRoute por route
         }
       />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
