@@ -4,14 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { Platform } from "react-native";
-
-export const getBaseURL = () => {
-    if (Platform.OS === 'android') {
-      return 'http://10.0.2.2:3000/api'; // Android emulator
-    } else {
-      return 'http://localhost:3000/api'; // Web o iOS
-    }
-  };
+import { API_BASE_URL } from "@env";
 
 export const useAuthAxios = () => {
   const { tokens, login, logout } = useContext(AuthContext);
@@ -19,7 +12,7 @@ export const useAuthAxios = () => {
 
   const axiosInstance = useRef(
     axios.create({
-      baseURL: getBaseURL(),
+      baseURL: API_BASE_URL,
       timeout: 10000,
     })
   );
@@ -44,7 +37,7 @@ export const useAuthAxios = () => {
           if (refreshToken) {
             try {
               const response = await axios.post(
-                "http://192.168.0.228:3000/api/auth/refresh",
+                {API_BASE_URL} + "/auth/refresh",
                 { refreshToken }
               );
 

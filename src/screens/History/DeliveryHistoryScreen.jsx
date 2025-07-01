@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useContext } from "react";
-import { ScrollView, RefreshControl, TouchableOpacity } from "react-native";
+import { ScrollView, RefreshControl, Pressable } from "react-native";
 import { Text } from "react-native-paper";
 import DeliveryHistoryCard from "../../components/DeliveryHistoryCard";
 import { StyleSheet, View } from "react-native";
@@ -80,7 +80,7 @@ const DeliveryHistoryScreen = () => {
           <ErrorMessage message="No tenés rutas entregadas." onPress={handleRetry} />
         ) : (
           deliveries.map((delivery) => (
-            <TouchableOpacity
+            <Pressable
               onPress={() =>
                 navigation.navigate("DeliveryDetailsScreen", {
                   deliveryId: delivery.id,
@@ -88,8 +88,8 @@ const DeliveryHistoryScreen = () => {
               }
               key={delivery.id}
             >
-              <DeliveryHistoryCard key={delivery.id} delivery={delivery} />
-            </TouchableOpacity>
+              <DeliveryHistoryCard delivery={delivery} />
+            </Pressable>
           ))
         )}
       </ScrollView>
