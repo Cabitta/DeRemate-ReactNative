@@ -1,10 +1,9 @@
-import { useState, useEffect, useContext, use } from "react";
+import { useState, useEffect } from "react";
 import { ScrollView, RefreshControl } from "react-native";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 import AvailableRoutesCard from "../components/AvailableRoutesCard";
 import { AvailableRoutesService } from "../services/AvailableRoutesService";
-import { AuthContext } from "../context/AuthContext";
 import { COLORS } from "../theme/appTheme";
 import GlobalBackground from "../components/GlobalBackground";
 
@@ -14,13 +13,12 @@ const AvailableRoutesScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [availableRoutes, setAvailableRoutes] = useState([]);
 
-  const { user } = useContext(AuthContext);
-  const fetchAvailableRoutes = AvailableRoutesService();
+  const { fetchAvailableRoutes } = AvailableRoutesService();
 
   const fetchData = async () => {
     try {
       setError(false);
-      const data = await fetchAvailableRoutes(user?.id);
+      const data = await fetchAvailableRoutes();
       setAvailableRoutes(data);
     } catch (error) {
       setError(true);
