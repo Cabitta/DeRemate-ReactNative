@@ -1,10 +1,11 @@
+import { useContext, useEffect, useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity} from "react-native";
-import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import ButtonPaper from "../components/ButtonPaper";
-import { Text } from "react-native-paper";
+import { Text, Card } from "react-native-paper";
 import { openGoogleMaps } from "../utils/helpers";
+import { COLORS } from "../theme/appTheme";
 import { AvailableRoutesService } from "../services/AvailableRoutesService";
 
 const ProtectedScreen = () => {
@@ -75,12 +76,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#ffdab9",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#000000",
-  },
   userInfo: {
     alignItems: "center",
     marginBottom: 30,
@@ -95,23 +90,28 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#000000",
   },
-  emailText: {
-    fontSize: 16,
+  currentRouteCard: {
+    width: "100%",
+    marginBottom: 20,
+    backgroundColor: "#ffffff",
+    borderRadius: 12,
+    elevation: 3,
+  },
+  cardTitle: {
+    color: COLORS.primaryButton,
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  routeInfo: {
+    fontSize: 14,
     color: "#666666",
+    marginBottom: 8,
   },
-  logoutButton: {
-    backgroundColor: "#8b0000",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 30,
-    marginTop: 20,
-    width: 250,
-    alignItems: "center",
-  },
-  logoutText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "500",
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 12,
+    gap: 8,
   },
 });
 
