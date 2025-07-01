@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Card, Divider, Text } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { COLORS } from "../theme/appTheme";
 import DialogPaperComponent from "./DialogPaperComponent";
 import { openGoogleMaps } from "../utils/helpers";
+import { AvailableRoutesService } from "../services/AvailableRoutesService";
+import { AuthContext } from "../context/AuthContext";
 
 const AvailableRoutesCard = ({ availableRoute }) => {
   const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
+  const { user } = useContext(AuthContext);
+  const { setRouteState } = AvailableRoutesService();
+
   const onAccept = () => {
     hideDialog();
     openGoogleMaps(availableRoute.address);
+    setRouteState(availableRoute.id, "delivered", user.id);
   };
 
   return (

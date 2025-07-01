@@ -28,13 +28,15 @@ export const AvailableRoutesService = () => {
   }, [axiosInstance]);
 
   const setRouteState = useCallback(
-    async (routeId, state) => {
+    async (routeId, newState, newDelivery) => {
       try {
         const url = `/available-routes/set-state?routeId=${routeId}`;
         const data = {
-          state: "delivered",
+          state: newState,
+          delivery: newDelivery,
         };
-        const response = await axiosInstance.put(url, data);
+        console.log(url, data);
+        await axiosInstance.put(url, data);
       } catch (error) {
         if (error.response) {
           // El servidor respondió con un código de estado diferente de 2xx
@@ -56,5 +58,5 @@ export const AvailableRoutesService = () => {
     [axiosInstance]
   );
 
-  return fetchAvailableRoutes;
+  return { fetchAvailableRoutes, setRouteState };
 };
