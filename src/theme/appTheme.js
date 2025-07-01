@@ -1,15 +1,16 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const COLORS = {
-  primaryBackground: '#ffe4c4', 
-  primaryButton: '#E07A5F',    
-  buttonText: '#ffffff',       
-  titleText: '#FFFFFF',   
-  subtitleText: '#000000',
-  cardBackground: '#3B2F2F',
+  primaryBackground: "#ffe4c4",
+  primaryButton: "#E07A5F",
+  buttonText: "#ffffff",
+  titleText: "#FFFFFF",
+  subtitleText: "#000000",
+  cardBackground: "#3B2F2F",
   rojo: "#8b0000",
   gris: "#808080",
   blanco: "#ffffff",
+  grisDesahabilitado: "#BDBDBD",
 };
 
 export const COMMON_STYLES = StyleSheet.create({
@@ -47,13 +48,13 @@ export const COMMON_STYLES = StyleSheet.create({
     marginTop: 20,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 30
+    borderRadius: 30,
   },
   SecondaryButtonText: {
     fontSize: 15,
     color: COLORS.buttonText,
     width: 120,
     height: 25,
-    textAlign: "center"
+    textAlign: "center",
   },
 });
