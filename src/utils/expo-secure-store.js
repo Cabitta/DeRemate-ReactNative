@@ -22,7 +22,13 @@ const storage = isWeb ? webStorage : SecureStore;
 
 export const saveItem = async (key, value) => {
   try {
-    await storage.setItemAsync(key, value);
+    console.log(key)
+    console.log(value)
+    if (value === undefined || value === null) value = null
+    const stringValue = typeof value === "string" ? value : JSON.stringify(value);
+    console.log(key)
+    console.log(value)
+    await storage.setItemAsync(key, stringValue);
   } catch (error) {
     console.error("Error saving item:", error);
     if (isWeb) {
