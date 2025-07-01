@@ -77,14 +77,31 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
+      {inTransitRoute && (
+        <View style={styles.userInfo}>
+          <Text style={styles.welcomeText}>
+            Mi Ruta:{inTransitRoute.address}
+            {"\n"} Cliente:
+            {inTransitRoute.client_name} {inTransitRoute.client_lastname} {"\n"}
+            Email:
+            {inTransitRoute.client_email}
+          </Text>
+        </View>
+      )}
 
       <ButtonPaper
-        title={"Generar QR"}
+        title={"Escanear QR"}
         onPress={() =>
-          navigation.navigate("qrCodeScreen", { routeId: inTransitRoute?.id })
+          navigation.navigate("qrCodeScreen", {
+            deliveryId: user.id,
+            routeId: inTransitRoute?.id,
+          })
         }
       />
-      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
+      <ButtonPaper
+        title={"Abrir en Google Maps"}
+        onPress={() => openGoogleMaps(location)}
+      />
       <ButtonPaper
         title={"Confirmar Ruta"}
         onPress={
