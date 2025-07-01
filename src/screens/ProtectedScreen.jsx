@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import ButtonPaper from "../components/ButtonPaper";
@@ -9,34 +9,11 @@ import { COLORS } from "../theme/appTheme";
 import { AvailableRoutesService } from "../services/AvailableRoutesService";
 
 const ProtectedScreen = () => {
+  const [inTransitRoute, setInTransitRoute] = useState(null);
+  const [location, setLocation] = useState(null);
   const { user, logout } = useContext(AuthContext);
   const navigation = useNavigation();
-  const [currentRoute, setCurrentRoute] = useState(null);
-  const [loading, setLoading] = useState(true);
-  
-  const { fetchAvailableRoutes } = AvailableRoutesService();
-
-  // Buscar si el delivery tiene una ruta en "in_transit"
-  useEffect(() => {
-    const checkCurrentRoute = async () => {
-      try {
-        const routes = await fetchAvailableRoutes();
-        // Filtrar rutas que estén asignadas a este delivery y en estado "in_transit"
-        const inTransitRoute = routes.find(
-          route => route.delivery === user?.id && route.state === 'in_transit'
-        );
-        setCurrentRoute(inTransitRoute);
-      } catch (error) {
-        console.error('Error checking current route:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user?.id) {
-      checkCurrentRoute();
-    }
-  }, [user?.id, fetchAvailableRoutes]);
+  const { fetchInTransitRouteByDeliveyId } = AvailableRoutesService();
 
   const handleLogout = async () => {
     try {
@@ -46,13 +23,27 @@ const ProtectedScreen = () => {
     }
   };
 
-  const handleValidateDelivery = () => {
-    navigation.navigate('DeliveryValidationScreen', {
-      routeId: currentRoute.id,
-      clientInfo: `${currentRoute.client_name} ${currentRoute.client_lastname}`,
-      address: currentRoute.address
-    });
+  const fetchInTransitRoute = async (deliveryId) => {
+    try {
+      const data = await fetchInTransitRouteByDeliveyId(deliveryId);
+      setInTransitRoute(data);
+      setLocation(data?.address);
+    } catch (error) {
+      console.error("Error al obtener la ruta en tránsito:", error);
+    }
   };
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetchInTransitRoute(user.id);
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("inTransitRoute actualizado:", inTransitRoute);
+    console.log("location actualizado:", location);
+  }, [inTransitRoute, location]);
 
   return (
     <View style={styles.container}>
@@ -63,39 +54,7 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
-
-      {/* 🆕 Mostrar ruta actual si está en tránsito */}
-      {currentRoute && (
-        <Card style={styles.currentRouteCard}>
-          <Card.Title
-            title="🚚 Entrega en Progreso"
-            titleStyle={styles.cardTitle}
-          />
-          <Card.Content>
-            <Text style={styles.routeInfo}>
-              Cliente: {currentRoute.client_name} {currentRoute.client_lastname}
-            </Text>
-            <Text style={styles.routeInfo}>
-              Dirección: {currentRoute.address}
-            </Text>
-            <View style={styles.buttonContainer}>
-              <ButtonPaper 
-                title="📧 Validar Código" 
-                onPress={handleValidateDelivery}
-                buttonColor={COLORS.primaryButton}
-              />
-              <ButtonPaper 
-                title="🗺️ Ver en Maps" 
-                onPress={() => openGoogleMaps(currentRoute.address)}
-                buttonColor={COLORS.rojo}
-              />
-            </View>
-          </Card.Content>
-        </Card>
-      )}
-
-      {/* Botones generales */}
-      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps("UADE")} />
+      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
     </View>
   );
