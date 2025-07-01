@@ -1,4 +1,4 @@
-import { View, StyleSheet} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
@@ -54,15 +54,11 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
-      
-      <ButtonPaper style={styles.logoutButton} onPress={() => navigation.navigate('qrCodeScreen')}>
-        <Text style={styles.logoutText}>Escanear QR</Text>
-      </ButtonPaper>
 
-      <ButtonPaper style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutText}>Cerrar Sesión</Text>
-      </ButtonPaper>
-      <ButtonPaper title={"Generar QR"} onPress={() => navigation.navigate('qrCodeScreen')} />
+      <ButtonPaper
+        title={"Generar QR"}
+        onPress={() => navigation.navigate("qrCodeScreen")}
+      />
       <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
       <ButtonPaper
         title={"Confirmar Ruta"}
