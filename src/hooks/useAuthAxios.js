@@ -8,12 +8,12 @@ import { API_BASE_URL, API_BASE_URL_EMULATOR } from "@env";
 
 export const getBaseURL = () => {
   //Tienen que poner la direccion IP de la computadora
-    if (Platform.OS === 'android') {
-      return API_BASE_URL_EMULATOR;
-    } else {
-      return API_BASE_URL; 
-    }
-  };
+  if (Platform.OS === "android") {
+    return API_BASE_URL_EMULATOR;
+  } else {
+    return API_BASE_URL;
+  }
+};
 
 export const useAuthAxios = () => {
   const { tokens, login, logout } = useContext(AuthContext);
@@ -46,7 +46,7 @@ export const useAuthAxios = () => {
           if (refreshToken) {
             try {
               const response = await axios.post(
-                getBaseURL() + "/auth/refresh",
+                "http://192.168.1.86:3000/api/auth/refresh",
                 { refreshToken }
               );
 
