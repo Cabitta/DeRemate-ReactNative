@@ -1,9 +1,9 @@
-import { View, StyleSheet} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import ButtonPaper from "../components/ButtonPaper";
-import { Text, Card } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { openGoogleMaps } from "../utils/helpers";
 import { COLORS } from "../theme/appTheme";
 import { AvailableRoutesService } from "../services/AvailableRoutesService";
@@ -54,19 +54,18 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
-      
-      <ButtonPaper style={styles.logoutButton} onPress={() => navigation.navigate('qrCodeScreen')}>
-        <Text style={styles.logoutText}>Escanear QR</Text>
-      </ButtonPaper>
 
-      <ButtonPaper style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutText}>Cerrar Sesión</Text>
-      </ButtonPaper>
-      <ButtonPaper title={"Generar QR"} onPress={() => navigation.navigate('qrCodeScreen')} />
+      <ButtonPaper
+        title={"Generar QR"}
+        onPress={() => navigation.navigate("qrCodeScreen")}
+      />
       <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
       <ButtonPaper
         title={"Confirmar Ruta"}
-        onPress={() => navigation.navigate("PasswordChanged")}
+        onPress={
+          () =>
+            navigation.navigate("DeliveryValidationScreen", { inTransitRoute }) //TODO: cambiar inTransitRoute por route
+        }
       />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
     </View>
