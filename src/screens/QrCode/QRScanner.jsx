@@ -29,7 +29,9 @@ const QRScanner = ({ navigation, deliveryId, routeId }) => {
     setLoading(true);
     try {
       const result = await processQRCode(data);
-      if (user?.id && routeId) { await setRouteState(user.id, "in_transit", routeId); }
+      if (user?.id && routeId) { 
+        await setRouteState(user.id, "in_transit", routeId); 
+      }
       Alert.alert(
         "Código QR Detectado",
         `Datos: ${data}\n\nRespuesta del servidor: ${JSON.stringify(result)}`,
