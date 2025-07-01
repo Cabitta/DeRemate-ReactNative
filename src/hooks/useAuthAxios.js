@@ -4,14 +4,14 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { Platform } from "react-native";
-import { API_BASE_URL } from "@env";
+import { API_BASE_URL, API_BASE_URL_EMULATOR } from "@env";
 
 export const getBaseURL = () => {
   //Tienen que poner la direccion IP de la computadora
     if (Platform.OS === 'android') {
-      return 'http://192.168.1.86:3000/api'; // Android emulator 'http://10.0.2.2:3000/api'
+      return API_BASE_URL;
     } else {
-      return 'http://localhost:3000/api'; // Web o iOS http://localhost:3000/api
+      return API_BASE_URL_EMULATOR; 
     }
   };
 
@@ -46,7 +46,7 @@ export const useAuthAxios = () => {
           if (refreshToken) {
             try {
               const response = await axios.post(
-                "http://192.168.1.86:3000/api/auth/refresh",
+                getBaseURL() + "/auth/refresh",
                 { refreshToken }
               );
 
