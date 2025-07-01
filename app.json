@@ -28,7 +28,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.pisto.DeRemate",
       "permissions": [
         "CAMERA",
         "android.permission.CAMERA",

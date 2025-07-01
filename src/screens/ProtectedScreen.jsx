@@ -77,36 +77,16 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
-      {inTransitRoute && (
-        <View style={styles.userInfo}>
-          <Text style={styles.welcomeText}>
-            Mi Ruta:{inTransitRoute.address}
-            {"\n"} Cliente:
-            {inTransitRoute.client_name} {inTransitRoute.client_lastname} {"\n"}
-            Email:
-            {inTransitRoute.client_email}
-          </Text>
-        </View>
-      )}
 
       <ButtonPaper
-        title={"Escanear QR"}
-        disabled={inTransitRoute}
+        title={"Generar QR"}
         onPress={() =>
-          navigation.navigate("qrCodeScreen", {
-            deliveryId: user.id,
-            routeId: inTransitRoute?.id,
-          })
+          navigation.navigate("qrCodeScreen", { routeId: inTransitRoute?.id })
         }
       />
-      <ButtonPaper
-        title={"Abrir en Google Maps"}
-        disabled={!location}
-        onPress={() => openGoogleMaps(location)}
-      />
+      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
       <ButtonPaper
         title={"Confirmar Ruta"}
-        disabled={!inTransitRoute}
         onPress={
           () =>
             navigation.navigate("DeliveryValidationScreen", { inTransitRoute }) //TODO: cambiar inTransitRoute por route
