@@ -61,6 +61,7 @@ const ProtectedScreen = () => {
       <ButtonPaper style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutText}>Cerrar Sesión</Text>
       </ButtonPaper>
+      <ButtonPaper title={"Generar QR"} onPress={() => navigation.navigate('qrCodeScreen')} />
       <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
     </View>
