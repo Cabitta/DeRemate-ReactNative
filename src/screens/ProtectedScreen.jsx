@@ -1,14 +1,18 @@
 import { View, StyleSheet } from "react-native";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import ButtonPaper from "../components/ButtonPaper";
 import { Text } from "react-native-paper";
 import { openGoogleMaps } from "../utils/helpers";
+import { AvailableRoutesService } from "../services/AvailableRoutesService";
 
 const ProtectedScreen = () => {
+  const [inTransitRoute, setInTransitRoute] = useState(null);
+  const [location, setLocation] = useState(null);
   const { user, logout } = useContext(AuthContext);
   const navigation = useNavigation();
+  const { fetchInTransitRouteByDeliveyId } = AvailableRoutesService();
 
   const handleLogout = async () => {
     try {
@@ -17,6 +21,28 @@ const ProtectedScreen = () => {
       console.error("Error al cerrar sesión:", error);
     }
   };
+
+  const fetchInTransitRoute = async (deliveryId) => {
+    try {
+      const data = await fetchInTransitRouteByDeliveyId(deliveryId);
+      setInTransitRoute(data);
+      setLocation(data?.address);
+    } catch (error) {
+      console.error("Error al obtener la ruta en tránsito:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetchInTransitRoute(user.id);
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("inTransitRoute actualizado:", inTransitRoute);
+    console.log("location actualizado:", location);
+  }, [inTransitRoute, location]);
 
   return (
     <View style={styles.container}>
@@ -27,7 +53,7 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
-      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps("UADE")} />
+      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
     </View>
   );
