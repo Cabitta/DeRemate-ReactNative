@@ -91,6 +91,7 @@ const ProtectedScreen = () => {
 
       <ButtonPaper
         title={"Escanear QR"}
+        disabled={inTransitRoute}
         onPress={() =>
           navigation.navigate("qrCodeScreen", {
             deliveryId: user.id,
@@ -100,10 +101,12 @@ const ProtectedScreen = () => {
       />
       <ButtonPaper
         title={"Abrir en Google Maps"}
+        disabled={!location}
         onPress={() => openGoogleMaps(location)}
       />
       <ButtonPaper
         title={"Confirmar Ruta"}
+        disabled={!inTransitRoute}
         onPress={
           () =>
             navigation.navigate("DeliveryValidationScreen", { inTransitRoute }) //TODO: cambiar inTransitRoute por route
