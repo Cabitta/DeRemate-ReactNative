@@ -7,12 +7,13 @@ import { Platform } from "react-native";
 import { API_BASE_URL } from "@env";
 
 export const getBaseURL = () => {
-  if (Platform.OS === "android") {
-    return "http://10.0.2.2:3000/api"; // Android emulator
-  } else {
-    return "http://localhost:3000/api"; // Web o iOS
-  }
-};
+  //Tienen que poner la direccion IP de la computadora
+    if (Platform.OS === 'android') {
+      return 'http://192.168.1.86:3000/api'; // Android emulator 'http://10.0.2.2:3000/api'
+    } else {
+      return 'http://localhost:3000/api'; // Web o iOS http://localhost:3000/api
+    }
+  };
 
 export const useAuthAxios = () => {
   const { tokens, login, logout } = useContext(AuthContext);
@@ -45,7 +46,7 @@ export const useAuthAxios = () => {
           if (refreshToken) {
             try {
               const response = await axios.post(
-                "http://10.0.2.2:3000/api/auth/refresh",
+                "http://192.168.1.86:3000/api/auth/refresh",
                 { refreshToken }
               );
 
