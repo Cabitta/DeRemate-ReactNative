@@ -79,7 +79,7 @@ const ProtectedScreen = () => {
       )}
       {inTransitRoute && (
         <View style={styles.userInfo}>
-          <Text style={styles.welcomeText}>
+          <Text style={styles.routeText}>
             Mi Ruta:{inTransitRoute.address}
             {"\n"} Cliente:
             {inTransitRoute.client_name} {inTransitRoute.client_lastname} {"\n"}
@@ -139,6 +139,12 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 18,
+    marginBottom: 10,
+    textAlign: "center",
+    color: "#000000",
+  },
+  routeText: {
+    fontSize: 15,
     marginBottom: 10,
     textAlign: "center",
     color: "#000000",
