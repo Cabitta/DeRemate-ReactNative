@@ -1,21 +1,19 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { Button, ActivityIndicator, Surface } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQRCodeService } from "../../services/qrCodeService";
 import { AvailableRoutesService } from "../../services/AvailableRoutesService";
-import { AuthContext } from "../../context/AuthContext";
 
-const QRScanner = ({ navigation, routeId }) => {
+const QRScanner = ({ navigation, deliveryId, routeId }) => {
   const [scanned, setScanned] = useState(false);
   const [loading, setLoading] = useState(false);
   const insets = useSafeAreaInsets();
   const { processQRCode } = useQRCodeService();
   const { setRouteState } = AvailableRoutesService();
-  const { user } = useContext(AuthContext);
 
-  ///setRouteState(user.id, "in_transit", routeId);
+  ///setRouteState(deliveryId, "in_transit", routeId);
 
   const [permission, requestPermission] = useCameraPermissions();
 

@@ -77,19 +77,43 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
+      {inTransitRoute && (
+        <View style={styles.userInfo}>
+          <Text style={styles.routeText}>
+            Mi Ruta:{inTransitRoute.address}
+            {"\n"} Cliente:
+            {inTransitRoute.client_name} {inTransitRoute.client_lastname} {"\n"}
+            Email:
+            {inTransitRoute.client_email}
+          </Text>
+        </View>
+      )}
 
       <ButtonPaper
-        title={"Generar QR"}
+        title={"Escanear QR"}
+        disabled={inTransitRoute}
         onPress={() =>
-          navigation.navigate("qrCodeScreen", { routeId: inTransitRoute?.id })
+          navigation.navigate("qrCodeScreen", {
+            deliveryId: user.id,
+            routeId: inTransitRoute?.id,
+          })
         }
       />
-      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
+      <ButtonPaper
+        title={"Abrir en Google Maps"}
+        disabled={!location}
+        onPress={() => openGoogleMaps(location)}
+      />
       <ButtonPaper
         title={"Confirmar Ruta"}
+        disabled={!inTransitRoute}
         onPress={
           () =>
-            navigation.navigate("DeliveryValidationScreen", { inTransitRoute }) //TODO: cambiar inTransitRoute por route
+            navigation.navigate("DeliveryValidationScreen", {
+              routeId: inTransitRoute?.id,
+              clientInfo: `${inTransitRoute.client_name} ${inTransitRoute.client_lastname}`,
+              address: inTransitRoute?.address,
+            }) //TODO: cambiar inTransitRoute por route
         }
       />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
@@ -115,6 +139,12 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 18,
+    marginBottom: 10,
+    textAlign: "center",
+    color: "#000000",
+  },
+  routeText: {
+    fontSize: 15,
     marginBottom: 10,
     textAlign: "center",
     color: "#000000",
