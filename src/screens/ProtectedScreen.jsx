@@ -80,7 +80,9 @@ const ProtectedScreen = () => {
 
       <ButtonPaper
         title={"Generar QR"}
-        onPress={() => navigation.navigate("qrCodeScreen")}
+        onPress={() =>
+          navigation.navigate("qrCodeScreen", { routeId: inTransitRoute?.id })
+        }
       />
       <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
       <ButtonPaper
