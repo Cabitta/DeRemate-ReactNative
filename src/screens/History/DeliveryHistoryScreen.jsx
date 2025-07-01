@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useContext } from "react";
-import { ScrollView, RefreshControl, TouchableOpacity } from "react-native";
+import { ScrollView, RefreshControl, Pressable } from "react-native";
 import { Text } from "react-native-paper";
 import DeliveryHistoryCard from "../../components/DeliveryHistoryCard";
 import { StyleSheet, View } from "react-native";
@@ -8,6 +8,7 @@ import { useDeliveryHistoryService } from "../../services/DeliveryHistoryService
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../../components/Loading";
 import { useNavigation } from "@react-navigation/native";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const DeliveryHistoryScreen = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -19,18 +20,17 @@ const DeliveryHistoryScreen = () => {
   const navigation = useNavigation();
 
   const loadDeliveries = useCallback(async () => {
-    if (!user?.id) return;
+    //if (!user?.id) return;
     try {
       setLoading(true);
-      setError(null);
-
+      setError(false);
       const data = await fetchDeliveries(user?.id);
-
       setDeliveries(data);
+
     } catch (err) {
       console.error("Failed to load deliveries in component", err);
-      setError(err);
-      setDeliveries([]);
+      setError(true);
+
     } finally {
       setLoading(false);
     }
@@ -45,6 +45,11 @@ const DeliveryHistoryScreen = () => {
     await loadDeliveries();
     setRefreshing(false);
   };
+
+  const handleRetry = () => {
+    setLoading(true)
+    loadDeliveries();
+  } 
 
   if (!user) {
     return (
@@ -70,14 +75,12 @@ const DeliveryHistoryScreen = () => {
         {loading ? (
           Loading()
         ) : error ? (
-          <Text style={styles.errorText}>
-            Error al cargar las entregas. Por favor, intente nuevamente.
-          </Text>
-        ) : deliveries.length === 0 ? (
-          <Text style={styles.emptyText}>No hay entregas disponibles.</Text>
+          <ErrorMessage message="Ocurrió un error al cargar las rutas entregadas. Intentalo nuevamente más tarde." onPress={handleRetry} />
+        ) : deliveries.length === 0 && !error ? (
+          <ErrorMessage message="No tenés rutas entregadas." onPress={handleRetry} />
         ) : (
           deliveries.map((delivery) => (
-            <TouchableOpacity
+            <Pressable
               onPress={() =>
                 navigation.navigate("DeliveryDetailsScreen", {
                   deliveryId: delivery.id,
@@ -85,8 +88,8 @@ const DeliveryHistoryScreen = () => {
               }
               key={delivery.id}
             >
-              <DeliveryHistoryCard key={delivery.id} delivery={delivery} />
-            </TouchableOpacity>
+              <DeliveryHistoryCard delivery={delivery} />
+            </Pressable>
           ))
         )}
       </ScrollView>

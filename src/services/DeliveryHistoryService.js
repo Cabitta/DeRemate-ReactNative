@@ -13,7 +13,7 @@ export const useDeliveryHistoryService = () => {
         return response.data;
       } catch (error) {
         console.error("Error fetching deliveries", error);
-        return [];
+        throw error;
       }
     },
     [axiosInstance]

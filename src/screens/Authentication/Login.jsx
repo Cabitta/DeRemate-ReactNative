@@ -8,7 +8,7 @@ import { Alert } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import InputText from "../../components/InputText";
-import CustomButton from "../../components/CustomButton";
+import ButtonPaper from "../../components/ButtonPaper";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -49,9 +49,12 @@ const LoginScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <CustomButton title="Iniciar Sesión" onPress={handleLogin} />
-      <CustomButton
-        title="Recuperar Contraseña"
+      <ButtonPaper
+        title={"Iniciar Sesión"}
+        onPress={handleLogin}
+      />
+      <ButtonPaper
+        title={"Recuperar Contraseña"}
         onPress={() => navigation.navigate("EmailRecovery")}
       />
     </View>

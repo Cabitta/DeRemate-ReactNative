@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, Image, Button, TouchableOpacity, SafeAreaView} from 'react-native';
-import React, {useState} from "react";
+import { StyleSheet, Text, View, Image } from 'react-native';
+import {useState} from "react";
 import image from '../../images/Logo.png'
 import { useNavigation } from '@react-navigation/native';
-import { TextInput } from 'react-native-web';
 import { NewPasswordSetupService } from '../../services/NewPasswordSetupService';
 import { Alert} from 'react-native';
 import InputText from '../../components/InputText';
-import CustomButton from '../../components/CustomButton';
+import ButtonPaper from '../../components/ButtonPaper';
 
 const NewPasswordSetupScreen =()=>{
   const navigation = useNavigation()
@@ -39,7 +38,7 @@ const NewPasswordSetupScreen =()=>{
               <InputText placeholder="Ingrese el Token de Verificacion" value={code} onChangeText={setCode}/>
               <InputText placeholder="Ingrese la contraseña" value={newpassword} onChangeText={setNewpassword} secureTextEntry/>
               <InputText placeholder="Reingrese la contraseña" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry/>
-              <CustomButton title="Enviar" onPress={handleNewPasswordSetup} />
+              <ButtonPaper title={"Enviar"} onPress={handleNewPasswordSetup}/>
             </View>
     );
 }
