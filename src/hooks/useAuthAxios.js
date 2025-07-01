@@ -7,10 +7,11 @@ import { Platform } from "react-native";
 import { API_BASE_URL } from "@env";
 
 export const getBaseURL = () => {
+  //Tienen que poner la direccion IP de la computadora
     if (Platform.OS === 'android') {
       return 'http://192.168.1.86:3000/api'; // Android emulator 'http://10.0.2.2:3000/api'
     } else {
-      return 'http://192.168.1.86:3000/api'; // Web o iOS http://localhost:3000/api
+      return 'http://localhost:3000/api'; // Web o iOS http://localhost:3000/api
     }
   };
 
