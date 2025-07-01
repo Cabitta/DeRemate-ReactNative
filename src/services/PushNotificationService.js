@@ -45,10 +45,15 @@ export function startPeriodicNotifications(axiosInstance, agentId, intervalMinut
   
   const checkAndNotify = async () => {
     try {
-      const notificationData = await getNotifications(axiosInstance, agentId);
-      if (notificationData && notificationData.title && notificationData.body) {
-        await sendNotification(notificationData.title, notificationData.body);
-        console.log('[Notification] Notificación enviada');
+      const notifications = await getNotifications(axiosInstance, agentId);
+      if (Array.isArray(notifications) && notifications.length > 0) {
+        console.log(`[Notification] Se recibieron ${notifications.length} notificaciones.`);
+        for (const notification of notifications) {
+          if (notification && notification.title && notification.body) {
+            await sendNotification(notification.title, notification.body);
+            console.log(`[Notification] Notificación enviada: "${notification.title}"`);
+          }
+        }
       }
     } catch (error) {
       console.error('[Notification] Error:', error);

@@ -1,15 +1,19 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
-import { CameraView, useCameraPermissions } from 'expo-camera';
-import { Button, ActivityIndicator, Surface } from 'react-native-paper';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useQRCodeService } from '../../services/qrCodeService';
+import { useState, useEffect } from "react";
+import { StyleSheet, View, Text, Alert } from "react-native";
+import { CameraView, useCameraPermissions } from "expo-camera";
+import { Button, ActivityIndicator, Surface } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useQRCodeService } from "../../services/qrCodeService";
+import { AvailableRoutesService } from "../../services/AvailableRoutesService";
 
-const QRScanner = ({ navigation }) => {
+const QRScanner = ({ navigation, deliveryId, routeId }) => {
   const [scanned, setScanned] = useState(false);
   const [loading, setLoading] = useState(false);
   const insets = useSafeAreaInsets();
   const { processQRCode } = useQRCodeService();
+  const { setRouteState } = AvailableRoutesService();
+
+  ///setRouteState(deliveryId, "in_transit", routeId);
 
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -21,20 +25,19 @@ const QRScanner = ({ navigation }) => {
 
   const handleBarCodeScanned = async ({ type, data }) => {
     if (scanned) return;
-
     setScanned(true);
     setLoading(true);
-
     try {
       const result = await processQRCode(data);
+      if (user?.id && routeId) { await setRouteState(user.id, "in_transit", routeId); }
       Alert.alert(
-        'Código QR Detectado',
+        "Código QR Detectado",
         `Datos: ${data}\n\nRespuesta del servidor: ${JSON.stringify(result)}`,
-        [{ text: 'Aceptar', onPress: () => setScanned(false) }]
+        [{ text: "Aceptar", onPress: () => setScanned(false) }]
       );
     } catch (error) {
-      Alert.alert('Error', `Error al procesar el código QR: ${error.message}`, [
-        { text: 'Aceptar', onPress: () => setScanned(false) },
+      Alert.alert("Error", `Error al procesar el código QR: ${error.message}`, [
+        { text: "Aceptar", onPress: () => setScanned(false) },
       ]);
     } finally {
       setLoading(false);
@@ -54,7 +57,11 @@ const QRScanner = ({ navigation }) => {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>No hay acceso a la cámara</Text>
-        <Button mode="contained" onPress={() => navigation.goBack()} style={styles.button}>
+        <Button
+          mode="contained"
+          onPress={() => navigation.goBack()}
+          style={styles.button}
+        >
           Volver
         </Button>
       </View>
@@ -66,7 +73,7 @@ const QRScanner = ({ navigation }) => {
       <CameraView
         style={styles.camera}
         barcodeScannerSettings={{
-          barcodeTypes: ['qr'],
+          barcodeTypes: ["qr"],
         }}
         onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
       >
@@ -96,32 +103,32 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   unfilled: {
     flex: 1,
   },
   rowContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 200,
   },
   scanner: {
     width: 200,
     height: 200,
     borderWidth: 2,
-    borderColor: '#03dac6',
-    backgroundColor: 'transparent',
+    borderColor: "#03dac6",
+    backgroundColor: "transparent",
   },
   buttonContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 50,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   button: {
     width: 200,

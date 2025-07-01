@@ -1,19 +1,37 @@
-import { View, StyleSheet} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import ButtonPaper from "../components/ButtonPaper";
-import { Text, Card } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { openGoogleMaps } from "../utils/helpers";
 import { COLORS } from "../theme/appTheme";
 import { AvailableRoutesService } from "../services/AvailableRoutesService";
+import ErrorMessage from "../components/ErrorMessage";
+import Loading from "../components/Loading";
 
 const ProtectedScreen = () => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [inTransitRoute, setInTransitRoute] = useState(null);
   const [location, setLocation] = useState(null);
   const { user, logout } = useContext(AuthContext);
   const navigation = useNavigation();
   const { fetchInTransitRouteByDeliveyId } = AvailableRoutesService();
+
+  const fetchData = async (deliveryId) => {
+    try {
+      setError(false);
+      const data = await fetchInTransitRouteByDeliveyId(deliveryId);
+      setInTransitRoute(data);
+      setLocation(data?.address);
+    } catch (error) {
+      setError(true);
+      console.error("Error al obtener la ruta en tránsito:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -23,27 +41,32 @@ const ProtectedScreen = () => {
     }
   };
 
-  const fetchInTransitRoute = async (deliveryId) => {
-    try {
-      const data = await fetchInTransitRouteByDeliveyId(deliveryId);
-      setInTransitRoute(data);
-      setLocation(data?.address);
-    } catch (error) {
-      console.error("Error al obtener la ruta en tránsito:", error);
-    }
+  const handleRetry = () => {
+    setLoading(true);
+    fetchData(user.id);
   };
 
   useEffect(() => {
-    const fetchData = () => {
-      fetchInTransitRoute(user.id);
+    const initialFetch = () => {
+      fetchData(user.id);
     };
-    fetchData();
+    initialFetch();
   }, []);
 
-  useEffect(() => {
-    console.log("inTransitRoute actualizado:", inTransitRoute);
-    console.log("location actualizado:", location);
-  }, [inTransitRoute, location]);
+  // Pantallas
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <ErrorMessage
+        message="Ocurrió un error al cargar la pantalla de inicio. Intentalo nuevamente más tarde."
+        onPress={handleRetry}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -54,19 +77,40 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
-      
-      <ButtonPaper style={styles.logoutButton} onPress={() => navigation.navigate('qrCodeScreen')}>
-        <Text style={styles.logoutText}>Escanear QR</Text>
-      </ButtonPaper>
+      {inTransitRoute && (
+        <View style={styles.userInfo}>
+          <Text style={styles.welcomeText}>
+            Mi Ruta:{inTransitRoute.address}
+            {"\n"} Cliente:
+            {inTransitRoute.client_name} {inTransitRoute.client_lastname} {"\n"}
+            Email:
+            {inTransitRoute.client_email}
+          </Text>
+        </View>
+      )}
 
-      <ButtonPaper style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutText}>Cerrar Sesión</Text>
-      </ButtonPaper>
-      <ButtonPaper title={"Generar QR"} onPress={() => navigation.navigate('qrCodeScreen')} />
-      <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
+      <ButtonPaper
+        title={"Escanear QR"}
+        disabled={inTransitRoute}
+        onPress={() =>
+          navigation.navigate("qrCodeScreen", {
+            deliveryId: user.id,
+            routeId: inTransitRoute?.id,
+          })
+        }
+      />
+      <ButtonPaper
+        title={"Abrir en Google Maps"}
+        disabled={!location}
+        onPress={() => openGoogleMaps(location)}
+      />
       <ButtonPaper
         title={"Confirmar Ruta"}
-        onPress={() => navigation.navigate("PasswordChanged")}
+        disabled={!inTransitRoute}
+        onPress={
+          () =>
+            navigation.navigate("DeliveryValidationScreen", { inTransitRoute }) //TODO: cambiar inTransitRoute por route
+        }
       />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
     </View>

@@ -15,15 +15,25 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "Esta aplicación necesita acceder a la cámara para tomar fotos o escanear códigos QR."
-      }
+        "NSCameraUsageDescription": "Esta aplicación necesita acceder a la cámara para tomar fotos o escanear códigos QR.",
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        },
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.pisto.DeRemate"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["CAMERA"],
+      "package": "com.pisto.DeRemate",
+      "permissions": [
+        "CAMERA",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
       "edgeToEdgeEnabled": true
     },
     "web": {
@@ -32,6 +42,11 @@
     "plugins": [
       "expo-secure-store",
       "expo-camera"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9c19471e-c390-4ad2-bd79-936fa155588d"
+      }
+    }
   }
 }

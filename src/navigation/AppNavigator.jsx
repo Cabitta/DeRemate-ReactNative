@@ -60,28 +60,7 @@ function AuthStack() {
   );
 }
 
-// 🆕 Stack para ProtectedScreen que ahora puede navegar a DeliveryValidation
-const ProtectedStack = () => (
-  <Stack.Navigator
-    screenOptions={{ headerShown: true, headerTitleAlign: "center" }}
-  >
-    <Stack.Screen
-      name="ProtectedMain"
-      component={ProtectedScreen}
-      options={{ title: "Inicio" }}
-    />
-    <Stack.Screen
-      name="DeliveryValidationScreen"
-      component={DeliveryValidationScreen}
-      options={({ navigation }) => ({
-        title: "Validar Entrega",
-        ...headerLeft({ navigation }),
-      })}
-    />
-  </Stack.Navigator>
-);
-
-// Tabs para la navegación dentro del área protegida
+// Tabs para la navegación
 function AppTabs() {
   return (
     <Tab.Navigator
@@ -93,10 +72,10 @@ function AppTabs() {
     >
       <Tab.Screen
         name="ProtectedScreen"
-        component={ProtectedStack} // Cambiar a Stack
+        component={ProtectedStack}
         options={{
           title: "Inicio",
-          headerShown: false, // El stack maneja sus propios headers
+          headerShown: false,
           tabBarIcon: () => (
             <Icon source="home" color={COLORS.gris} size={30} />
           ),
@@ -123,20 +102,40 @@ function AppTabs() {
           ),
         }}
       />
-      <Tab.Screen
-        name="qrCodeScreen"
-        component={QRScannerScreen}
-        options={{
-          title: "QR Scanner",
-          tabBarIcon: () => (
-            <Icon source="map-marker" color={COLORS.gris} size={30} />
-          ),
-        }}
-      />
     </Tab.Navigator>
   );
 }
 
+// Stack para ProtectedScreen
+const ProtectedStack = () => (
+  <Stack.Navigator
+    screenOptions={{ headerShown: true, headerTitleAlign: "center" }}
+  >
+    <Stack.Screen
+      name="ProtectedMain"
+      component={ProtectedScreen}
+      options={{ title: "Inicio" }}
+    />
+    <Stack.Screen
+      name="DeliveryValidationScreen"
+      component={DeliveryValidationScreen}
+      options={({ navigation }) => ({
+        title: "Validar Entrega",
+        ...headerLeft({ navigation }),
+      })}
+    />
+    <Stack.Screen
+      name="qrCodeScreen"
+      component={QRScannerScreen}
+      options={({ navigation }) => ({
+        title: "QR Scanner",
+        ...headerLeft({ navigation }),
+      })}
+    />
+  </Stack.Navigator>
+);
+
+// Stack para DeliveryHistory
 const DeliveryHistoryStack = () => (
   <Stack.Navigator
     screenOptions={{ headerShown: true, headerTitleAlign: "center" }}
