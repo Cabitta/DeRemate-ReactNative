@@ -22,8 +22,7 @@ import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
 import AvailableRoutesScreen from "../screens/AvailableRoutesScreen";
 import DeliveryDetailsScreen from "../screens/History/DeliveryDetailsScreen";
 import DeliveryValidationScreen from "../screens/Delivery/DeliveryValidationScreen";
-import QRScannerScreen from "../screens/QrCode/QRScanner"
-
+import QRScannerScreen from "../screens/QrCode/QRScanner";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
