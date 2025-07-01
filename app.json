@@ -20,15 +20,13 @@
           "NSAllowsArbitraryLoads": true
         },
         "ITSAppUsesNonExemptEncryption": false
-      },
-      "bundleIdentifier": "com.pisto.DeRemate"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.pisto.DeRemate",
       "permissions": [
         "CAMERA",
         "android.permission.CAMERA",
@@ -38,15 +36,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-secure-store",
-      "expo-camera"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "9c19471e-c390-4ad2-bd79-936fa155588d"
-      }
     }
   }
 }
