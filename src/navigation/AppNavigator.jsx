@@ -21,7 +21,8 @@ import ProtectedScreen from "../screens/ProtectedScreen";
 import DeliveryHistoryScreen from "../screens/History/DeliveryHistoryScreen";
 import AvailableRoutesScreen from "../screens/AvailableRoutesScreen";
 import DeliveryDetailsScreen from "../screens/History/DeliveryDetailsScreen";
-import QRScannerScreen from "../screens/QrCode/QRScanner"
+import DeliveryValidationScreen from "../screens/Delivery/DeliveryValidationScreen";
+import QRScannerScreen from "../screens/QrCode/QRScanner";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,6 +60,27 @@ function AuthStack() {
   );
 }
 
+// 🆕 Stack para ProtectedScreen que ahora puede navegar a DeliveryValidation
+const ProtectedStack = () => (
+  <Stack.Navigator
+    screenOptions={{ headerShown: true, headerTitleAlign: "center" }}
+  >
+    <Stack.Screen
+      name="ProtectedMain"
+      component={ProtectedScreen}
+      options={{ title: "Inicio" }}
+    />
+    <Stack.Screen
+      name="DeliveryValidationScreen"
+      component={DeliveryValidationScreen}
+      options={({ navigation }) => ({
+        title: "Validar Entrega",
+        ...headerLeft({ navigation }),
+      })}
+    />
+  </Stack.Navigator>
+);
+
 // Tabs para la navegación dentro del área protegida
 function AppTabs() {
   return (
@@ -71,9 +93,10 @@ function AppTabs() {
     >
       <Tab.Screen
         name="ProtectedScreen"
-        component={ProtectedScreen}
+        component={ProtectedStack} // Cambiar a Stack
         options={{
           title: "Inicio",
+          headerShown: false, // El stack maneja sus propios headers
           tabBarIcon: () => (
             <Icon source="home" color={COLORS.gris} size={30} />
           ),
