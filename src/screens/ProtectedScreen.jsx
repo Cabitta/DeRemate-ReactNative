@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity} from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import ButtonPaper from "../components/ButtonPaper";
@@ -54,8 +54,11 @@ const ProtectedScreen = () => {
           </Text>
         </View>
       )}
-      
-      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('qrCodeScreen')}>
+
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={() => navigation.navigate("qrCodeScreen")}
+      >
         <Text style={styles.logoutText}>Escanear QR</Text>
       </TouchableOpacity>
 
@@ -63,6 +66,10 @@ const ProtectedScreen = () => {
         <Text style={styles.logoutText}>Cerrar Sesión</Text>
       </TouchableOpacity>
       <ButtonPaper title={"Mi ruta"} onPress={() => openGoogleMaps(location)} />
+      <ButtonPaper
+        title={"Confirmar Ruta"}
+        onPress={() => navigation.navigate("PasswordChanged")}
+      />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
     </View>
   );
