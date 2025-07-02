@@ -102,16 +102,6 @@ function AppTabs() {
           ),
         }}
       />
-      <Tab.Screen
-        name="qrCodeScreen"
-        component={QRScannerScreen}
-        options={{
-          title: "QR Scanner",
-          tabBarIcon: () => (
-            <Icon source="map-marker" color={COLORS.gris} size={30} />
-          ),
-        }}
-      />
     </Tab.Navigator>
   );
 }
@@ -131,6 +121,14 @@ const ProtectedStack = () => (
       component={DeliveryValidationScreen}
       options={({ navigation }) => ({
         title: "Validar Entrega",
+        ...headerLeft({ navigation }),
+      })}
+    />
+    <Stack.Screen
+      name="qrCodeScreen"
+      component={QRScannerScreen}
+      options={({ navigation }) => ({
+        title: "QR Scanner",
         ...headerLeft({ navigation }),
       })}
     />

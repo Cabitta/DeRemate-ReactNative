@@ -6,16 +6,19 @@ const ButtonPaper = ({
   title,
   onPress,
   buttonColor = COLORS.rojo,
+  buttonDisabledColor = COLORS.grisDesahabilitado,
   style = COMMON_STYLES.button,
   labelStyle = COMMON_STYLES.buttonText,
+  disabled = false,
 }) => {
   return (
     <Button
       onPress={onPress}
       mode="contained"
-      style={style}
+      style={[style, disabled && { backgroundColor: buttonDisabledColor }]}
       labelStyle={labelStyle}
-      buttonColor={buttonColor}
+      buttonColor={!disabled ? buttonColor : undefined}
+      disabled={disabled}
     >
       {title}
     </Button>

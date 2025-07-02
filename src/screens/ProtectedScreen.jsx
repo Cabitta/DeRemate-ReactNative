@@ -7,13 +7,31 @@ import { Text } from "react-native-paper";
 import { openGoogleMaps } from "../utils/helpers";
 import { COLORS } from "../theme/appTheme";
 import { AvailableRoutesService } from "../services/AvailableRoutesService";
+import ErrorMessage from "../components/ErrorMessage";
+import Loading from "../components/Loading";
 
 const ProtectedScreen = () => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [inTransitRoute, setInTransitRoute] = useState(null);
   const [location, setLocation] = useState(null);
   const { user, logout } = useContext(AuthContext);
   const navigation = useNavigation();
   const { fetchInTransitRouteByDeliveyId } = AvailableRoutesService();
+
+  const fetchData = async (deliveryId) => {
+    try {
+      setError(false);
+      const data = await fetchInTransitRouteByDeliveyId(deliveryId);
+      setInTransitRoute(data);
+      setLocation(data?.address);
+    } catch (error) {
+      setError(true);
+      console.error("Error al obtener la ruta en tránsito:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -23,27 +41,32 @@ const ProtectedScreen = () => {
     }
   };
 
-  const fetchInTransitRoute = async (deliveryId) => {
-    try {
-      const data = await fetchInTransitRouteByDeliveyId(deliveryId);
-      setInTransitRoute(data);
-      setLocation(data?.address);
-    } catch (error) {
-      console.error("Error al obtener la ruta en tránsito:", error);
-    }
+  const handleRetry = () => {
+    setLoading(true);
+    fetchData(user.id);
   };
 
   useEffect(() => {
-    const fetchData = () => {
-      fetchInTransitRoute(user.id);
+    const initialFetch = () => {
+      fetchData(user.id);
     };
-    fetchData();
+    initialFetch();
   }, []);
 
-  useEffect(() => {
-    console.log("inTransitRoute actualizado:", inTransitRoute);
-    console.log("location actualizado:", location);
-  }, [inTransitRoute, location]);
+  // Pantallas
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <ErrorMessage
+        message="Ocurrió un error al cargar la pantalla de inicio. Intentalo nuevamente más tarde."
+        onPress={handleRetry}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -51,6 +74,17 @@ const ProtectedScreen = () => {
         <View style={styles.userInfo}>
           <Text style={styles.welcomeText}>
             ¡Bienvenido, {user.firstname} {user.lastname}!
+          </Text>
+        </View>
+      )}
+      {inTransitRoute && (
+        <View style={styles.userInfo}>
+          <Text style={styles.routeText}>
+            Mi Ruta:{inTransitRoute.address}
+            {"\n"} Cliente:
+            {inTransitRoute.client_name} {inTransitRoute.client_lastname} {"\n"}
+            Email:
+            {inTransitRoute.client_email}
           </Text>
         </View>
       )}
@@ -70,9 +104,14 @@ const ProtectedScreen = () => {
       />
       <ButtonPaper
         title={"Confirmar Ruta"}
+        disabled={!inTransitRoute}
         onPress={
           () =>
-            navigation.navigate("DeliveryValidationScreen", { inTransitRoute }) //TODO: cambiar inTransitRoute por route
+            navigation.navigate("DeliveryValidationScreen", {
+              routeId: inTransitRoute?.id,
+              clientInfo: `${inTransitRoute.client_name} ${inTransitRoute.client_lastname}`,
+              address: inTransitRoute?.address,
+            }) //TODO: cambiar inTransitRoute por route
         }
       />
       <ButtonPaper title={"Cerrar Sesión"} onPress={handleLogout} />
@@ -98,6 +137,12 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 18,
+    marginBottom: 10,
+    textAlign: "center",
+    color: "#000000",
+  },
+  routeText: {
+    fontSize: 15,
     marginBottom: 10,
     textAlign: "center",
     color: "#000000",
