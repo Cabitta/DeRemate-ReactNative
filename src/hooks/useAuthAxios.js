@@ -4,7 +4,6 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { Platform } from "react-native";
-import { API_BASE_URL_WEB, API_BASE_URL_EMULATOR } from "@env";
 
 export const getBaseURL = () => {
   //Tienen que poner la direccion IP de la computadora

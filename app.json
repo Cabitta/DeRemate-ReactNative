@@ -13,27 +13,16 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "Esta aplicación necesita acceder a la cámara para tomar fotos o escanear códigos QR.",
-        "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true
-        },
-        "ITSAppUsesNonExemptEncryption": false
-      },
-      "bundleIdentifier": "com.pisto.DeRemate"
+        "NSCameraUsageDescription": "Esta aplicación necesita acceder a la cámara para tomar fotos o escanear códigos QR."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.pisto.DeRemate",
-      "permissions": [
-        "CAMERA",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["CAMERA"],
       "edgeToEdgeEnabled": true
     },
     "web": {
