@@ -42,11 +42,6 @@
     "plugins": [
       "expo-secure-store",
       "expo-camera"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "9c19471e-c390-4ad2-bd79-936fa155588d"
-      }
-    }
+    ]
   }
 }

@@ -9,9 +9,9 @@ import { API_BASE_URL_WEB, API_BASE_URL_EMULATOR } from "@env";
 export const getBaseURL = () => {
   //Tienen que poner la direccion IP de la computadora
   if (Platform.OS === "android") {
-    return API_BASE_URL_EMULATOR;
+    return "http://192.168.1.86:3000/api";
   } else {
-    return API_BASE_URL_WEB;
+    return "http://192.168.1.86:3000/api";
   }
 };
 
